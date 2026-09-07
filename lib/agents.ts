@@ -12,6 +12,15 @@ export type AgentDefinition = {
 
 export const AGENTS: AgentDefinition[] = [
   {
+    id: "website-job",
+    name: "Website Agent",
+    role: "Runs a full website job in one Cloud Agent: brand kit, wireframes, hi-fi desktop and mobile, then QA.",
+    whenToUse: "Any new marketing site or landing. This is the default starter. Do not split the job unless you only need one slice.",
+    inputs: ["Client URL and/or style guide", "Goals", "Language / market"],
+    outputs: ["New Figma file", "Brand page", "Wireframes", "Hi-fi Home + inner pages", "QA notes"],
+    skillPath: ".cursor/skills/website-job/SKILL.md",
+  },
+  {
     id: "intake",
     name: "Intake / Orchestrator",
     role: "Turns a messy client request into a structured brief and routes the right specialists.",
@@ -95,22 +104,36 @@ export const AGENTS: AgentDefinition[] = [
 ];
 
 export function agentsForDeliverables(deliverables: DeliverableId[]): AgentId[] {
-  const ids = new Set<AgentId>(["intake", "brand-kit", "design-qa"]);
+  const wantsWebsite = deliverables.includes("website") || deliverables.includes("landing");
+  const ids: AgentId[] = [];
 
-  for (const item of deliverables) {
-    if (item === "website" || item === "landing") {
-      ids.add("wireframe");
-      ids.add("web-design");
+  if (wantsWebsite) {
+    ids.push("website-job");
+  } else {
+    if (deliverables.includes("wireframes")) {
+      ids.push("brand-kit", "wireframe", "design-qa");
     }
-    if (item === "wireframes") ids.add("wireframe");
-    if (item === "banners") ids.add("banner-design");
-    if (item === "social") ids.add("campaign");
-    if (item === "figma-edit") ids.add("figma-edit");
-    if (item === "design-system") ids.add("design-system");
-    if (item === "pitch") ids.add("campaign");
+    if (deliverables.includes("banners") || deliverables.includes("social") || deliverables.includes("pitch")) {
+      if (!ids.includes("brand-kit")) ids.push("brand-kit");
+    }
+    if (deliverables.includes("banners")) ids.push("banner-design");
+    if (deliverables.includes("social") || deliverables.includes("pitch")) ids.push("campaign");
+    if (deliverables.includes("figma-edit")) ids.push("figma-edit");
+    if (deliverables.includes("design-system")) ids.push("design-system");
+    if (ids.length && !ids.includes("design-qa") && !deliverables.includes("figma-edit")) {
+      ids.push("design-qa");
+    }
+    if (deliverables.includes("figma-edit") && !ids.includes("design-qa")) ids.push("design-qa");
   }
 
-  return AGENTS.map((agent) => agent.id).filter((id) => ids.has(id));
+  if (wantsWebsite && deliverables.includes("banners")) ids.push("banner-design");
+  if (wantsWebsite && (deliverables.includes("social") || deliverables.includes("pitch"))) {
+    ids.push("campaign");
+  }
+  if (wantsWebsite && deliverables.includes("figma-edit")) ids.push("figma-edit");
+  if (wantsWebsite && deliverables.includes("design-system")) ids.push("design-system");
+
+  return [...new Set(ids)];
 }
 
 export const DELIVERABLE_LABELS: Record<DeliverableId, string> = {

@@ -7,7 +7,15 @@ import { DELIVERABLE_LABELS } from "@/lib/agents";
 import type { DeliverableId, StudioBrief } from "@/lib/types";
 import { DELIVERABLES } from "@/lib/types";
 
-const DEFAULT_DELIVERABLES: DeliverableId[] = ["website", "wireframes", "banners"];
+const DEFAULT_DELIVERABLES: DeliverableId[] = ["website"];
+
+const JOB_PRESETS: { id: string; label: string; deliverables: DeliverableId[] }[] = [
+  { id: "website", label: "Website", deliverables: ["website"] },
+  { id: "landing", label: "Landing", deliverables: ["landing"] },
+  { id: "wireframes", label: "Wireframes only", deliverables: ["wireframes"] },
+  { id: "banners", label: "Banners next", deliverables: ["website", "banners"] },
+  { id: "edit", label: "Edit Figma", deliverables: ["figma-edit"] },
+];
 
 export function BriefForm() {
   const [pending, setPending] = useState(false);
@@ -62,8 +70,8 @@ export function BriefForm() {
     (form.elements.namedItem("market") as HTMLInputElement).value = "Greece / EMEA";
     (form.elements.namedItem("language") as HTMLInputElement).value = "Greek + English";
     (form.elements.namedItem("goals") as HTMLTextAreaElement).value =
-      "Redesign the marketing site, then produce a launch banner set that matches the new brand.";
-    setDeliverables(["website", "wireframes", "banners"]);
+      "Redesign the marketing site. Homepage first, then About, Work, and Contact. Keep the current logo.";
+    setDeliverables(["website"]);
   }
 
   return (
@@ -71,11 +79,10 @@ export function BriefForm() {
       <form id="brief-form" onSubmit={onSubmit} className="hairline rounded-3xl bg-paper-2 p-6 sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-ink-soft">New client job</p>
-            <h2 className="serif mt-2 text-3xl sm:text-4xl">Start from a URL or a style guide</h2>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-ink-soft">New website job</p>
+            <h2 className="serif mt-2 text-3xl sm:text-4xl">URL or style guide in. Website Agent packet out.</h2>
             <p className="mt-2 max-w-xl text-sm text-ink-soft">
-              Atelier reads the live site, notes type and color, and writes specialist prompts your designers paste into
-              a Cloud Agent. The agent then builds in Figma.
+              Default is a full website. Add banners or an existing Figma file only when that is part of this job.
             </p>
           </div>
           <button
@@ -110,6 +117,29 @@ export function BriefForm() {
             className="mt-2 w-full rounded-2xl border border-line bg-paper px-3.5 py-3 text-sm outline-none focus:border-ink"
           />
         </label>
+
+        <fieldset className="mt-6">
+          <legend className="text-sm font-medium">Job</legend>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {JOB_PRESETS.map((preset) => {
+              const active =
+                deliverables.length === preset.deliverables.length &&
+                preset.deliverables.every((item) => deliverables.includes(item));
+              return (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => setDeliverables(preset.deliverables)}
+                  className={`rounded-full px-3.5 py-1.5 text-xs ${
+                    active ? "bg-copper text-paper-2" : "border border-line text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
 
         <fieldset className="mt-6">
           <legend className="text-sm font-medium">Deliverables</legend>

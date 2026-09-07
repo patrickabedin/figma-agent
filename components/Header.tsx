@@ -2,7 +2,8 @@ import Link from "next/link";
 import { STUDIO_NAME } from "@/lib/constants";
 
 const links = [
-  { href: "/", label: "New brief" },
+  { href: "/", label: "New website" },
+  { href: "/starters", label: "Starters" },
   { href: "/agents", label: "Agents" },
   { href: "/playbook", label: "Playbook" },
 ];

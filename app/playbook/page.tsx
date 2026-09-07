@@ -5,27 +5,19 @@ import { BANNER_SIZES, QUALITY_GATES, WEB_BREAKPOINTS } from "@/lib/presets";
 const steps = [
   {
     title: "Collect what exists",
-    body: "A live URL is enough to start. A PDF style guide is better. An existing Figma file is required only when the job is an edit.",
+    body: "A live URL is enough to start a website. A PDF style guide is better. An existing Figma file is required only when the job is an edit.",
   },
   {
-    title: "Run intake in Atelier",
-    body: "The studio extracts color, type, logos, nav, and voice, then writes specialist packets. Designers do not invent a prompt from scratch.",
+    title: "Run the Website Agent",
+    body: "Atelier writes one packet. Paste it into a Cloud Agent on this repo. That agent runs brand kit, wireframes, hi-fi, and QA in the same chat.",
   },
   {
-    title: "Brand Kit in Figma first",
-    body: "Open a Cloud Agent on this repository, paste packet 2, attach the guide. Tokens and type exist before anyone draws a page.",
+    title: "Review the Figma file",
+    body: "Humans still art-direct. Reject anything that looks like a generic template. Request edits with the Figma Editor starter.",
   },
   {
-    title: "Structure, then polish",
-    body: "Wireframes lock IA in grayscale. Website Designer paints on those frames. Banners share one campaign idea across sizes.",
-  },
-  {
-    title: "Edit in place",
-    body: "If the client already has a Figma file, Figma Editor inspects components and variables, then changes only what was asked.",
-  },
-  {
-    title: "QA before the client sees it",
-    body: "Design QA scores contrast, type, brand drift, and leftover placeholder copy. Blockers get fixed in the same file.",
+    title: "Then the rest",
+    body: "After the site exists: banners, social, and a design system. Do not start those in parallel unless the brief is ads-only.",
   },
 ];
 
@@ -34,7 +26,7 @@ export default function PlaybookPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">How the desk works</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
-        Same path for every new website, banner set, or Figma change request.
+        Websites first. Banners and edits after the site exists.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
         This is the operating model for the Hellenic design team. Atelier is the front door. Cursor Cloud
@@ -107,8 +99,8 @@ export default function PlaybookPage() {
             .
           </li>
           <li>
-            Save the nine specialist prompts as reusable Cloud Agent starters so juniors do not skip Brand
-            Kit or QA.
+            Save the Website Agent starter first (`/starters`). Add banner and Figma-edit starters after the
+            first sites are shipping.
           </li>
           <li>
             For retainers, run Design System after the first approved site so the second campaign is
@@ -127,7 +119,7 @@ export default function PlaybookPage() {
           href="/"
           className="mt-6 inline-flex rounded-full bg-ink px-4 py-2 text-sm text-paper-2 hover:bg-copper-deep"
         >
-          Open a new brief
+          Start a website
         </Link>
       </section>
     </div>

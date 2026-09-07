@@ -14,6 +14,10 @@ Confirmed on the connected account:
 
 Client files should be created on the Hellenic Technologies plan unless someone asks otherwise.
 
+First website job (Hellenic Technologies sample):
+
+https://www.figma.com/design/nlDKWKVVJpJL8QbQ2Lc1ml
+
 Operating Kit (templates and sizes, not client work):
 
 https://www.figma.com/design/2k2H00PKTb87JeKvlpHDIv
@@ -22,8 +26,8 @@ https://www.figma.com/design/2k2H00PKTb87JeKvlpHDIv
 
 1. Open Atelier and start a **new brief**.
 2. Enter the live website and/or upload the brand guide.
-3. Pick deliverables (website, wireframes, banners, existing Figma edit, …).
-4. Copy the packets in order. Brand Kit first. QA last.
+3. The default job is **Website**. Add banners or an existing Figma file only when needed.
+4. Copy the Website Agent packet. One Cloud Agent runs brand, wireframes, hi-fi, and QA.
 5. Open a Cursor Cloud Agent on this repository, paste the packet, attach the same guide files.
 6. Review in Figma. Send change lists to the Figma Editor agent. Run Design QA before the client.
 

@@ -61,6 +61,7 @@ export type BriefInput = {
 };
 
 export type AgentId =
+  | "website-job"
   | "intake"
   | "brand-kit"
   | "wireframe"

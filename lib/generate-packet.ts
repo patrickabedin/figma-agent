@@ -26,6 +26,55 @@ function buildPacket(
   const context = briefContext(input, brandKit);
 
   switch (agentId) {
+    case "website-job":
+      return {
+        agentId,
+        title: "Website Agent — full job",
+        summary: "One Cloud Agent. Brand kit, wireframes, hi-fi desktop + mobile, then QA.",
+        prompt: `${context}
+
+You are the Hellenic Technologies Website Agent. Run the full website job in this single conversation. Do not stop after the brand page.
+
+Follow, in order:
+1. .cursor/skills/website-job/SKILL.md
+2. .cursor/skills/brand-kit/SKILL.md
+3. .cursor/skills/wireframe/SKILL.md
+4. .cursor/skills/web-design/SKILL.md
+5. .cursor/skills/design-qa/SKILL.md
+
+Also load Figma skills before writing: figma-create-new-file, figma-use, figma-generate-design.
+
+Create a new Figma design file in the ${FIGMA_TEAM_NAME} team (planKey ${FIGMA_TEAM_PLAN_KEY}) named:
+“${input.clientName || brandKit.name} — Website”.
+
+Do not put work in the Operating Kit (${OPERATING_KIT.url}).
+
+PHASE A — Brand
+- Variables for primary, secondary, accent, background, surface, text, muted, border
+- Text styles using the client typeface. Never default to Inter unless it is in the kit
+- Logo row from extracted / attached assets
+- Voice and open questions
+
+PHASE B — Wireframes
+- Sitemap from extracted nav, adapted to: ${DEFAULT_WEBSITE_PAGES.join(", ")}
+- Desktop ${WEB_BREAKPOINTS[2].width} and mobile ${WEB_BREAKPOINTS[0].width} for Home + at least three inner pages
+- Grayscale only. Real language (${input.language || "source language"}). Mark missing copy with [need: …]
+
+PHASE C — Hi-fi
+- Paint on that IA. Homepage + at least three inner templates (or one landing if that is the only deliverable)
+- Sibling desktop / mobile frames
+- Componentize header, footer, button, card, input
+- Capture imagery from the live site. Empty gray photo slots are a defect
+- Bind tokens. No leftover “Title / Button”
+
+PHASE D — QA
+- Check every quality gate:
+${QUALITY_GATES.map((gate) => `  - ${gate}`).join("\n")}
+- Fix blockers and majors in place
+- Leave a short change / open-question note on a QA page
+
+Return the Figma file URL when done.`,
+      };
     case "intake":
       return {
         agentId,

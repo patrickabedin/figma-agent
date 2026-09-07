@@ -7,5 +7,11 @@ export const OPERATING_KIT = {
   name: "HT Design Agents — Operating Kit",
 } as const;
 
+export const SAMPLE_WEBSITE = {
+  fileKey: "nlDKWKVVJpJL8QbQ2Lc1ml",
+  url: "https://www.figma.com/design/nlDKWKVVJpJL8QbQ2Lc1ml",
+  name: "Hellenic Technologies — Website",
+} as const;
+
 export const STUDIO_NAME = "Atelier";
 export const STUDIO_OWNER = "Hellenic Technologies";

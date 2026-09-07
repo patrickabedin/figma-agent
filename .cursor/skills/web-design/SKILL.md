@@ -5,6 +5,8 @@ description: Create high-fidelity website and landing-page designs in Figma from
 
 # Website Designer
 
+When the designer asked for a full site, prefer `.cursor/skills/website-job/SKILL.md` and run brand + wireframes first. This skill is the hi-fi phase.
+
 Load Figma skills `figma-use` and `figma-generate-design` before writing to the file.
 
 ## Build

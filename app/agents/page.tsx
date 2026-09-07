@@ -6,12 +6,11 @@ export default function AgentsPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Specialists</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
-        Nine agents. One intake. Figma is the studio floor.
+        Website Agent first. Specialists only when you need a slice.
       </h1>
       <p className="mt-4 max-w-2xl text-base text-ink-soft">
-        Designers should not prompt a general model from scratch. Use the packets from a new brief, or open
-        a Cloud Agent on this repo and name the specialist. Each skill lives in the repository so every
-        designer runs the same standard.
+        The Website Agent is the default. Use the other specialists only when the job is wireframes-only,
+        ads-only, or an edit to a file that already exists.
       </p>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">

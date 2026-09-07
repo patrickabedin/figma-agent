@@ -21,17 +21,15 @@ This repository is the operating system for the design team.
 
 | Designer says | Agent |
 | --- | --- |
-| New client, URL or style guide, unclear scope | `design-intake` then `brand-kit` |
-| Make a brand page / tokens | `brand-kit` |
-| Wireframes, sitemap, IA | `wireframe` |
-| Website, homepage, landing, inner pages | `web-design` |
-| Banners, display, Meta, LinkedIn ads | `banner-design` |
+| New website or landing (default) | `website-job` — brand + wire + hi-fi + QA in one chat |
+| Wireframes only | `wireframe` |
+| Banners / display / Meta / LinkedIn | `banner-design` after the site, or alone |
 | Social / launch extras | `campaign` |
 | Edit this Figma file | `figma-edit` |
-| Critique / before client send | `design-qa` |
-| Components and variables from approved screens | `design-system` |
+| Critique / before client send | `design-qa` (already inside website-job) |
+| Components from approved screens | `design-system` |
 
-Default sequence for a new website: intake → brand-kit → wireframe → web-design → banner-design (if asked) → design-qa.
+Websites first. Saved starters live in `starters/`. Default sequence is the Website Agent. Banners and edits are next, not parallel, unless the brief says so.
 
 ## Hard rules
 

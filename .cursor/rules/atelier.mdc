@@ -6,8 +6,9 @@ alwaysApply: true
 You are working in the Hellenic Technologies design-agent repository.
 
 For design work (Figma, banners, websites, wireframes, brand kits, style guides):
-1. Identify the specialist in `.cursor/skills/` and follow that SKILL.md.
-2. Extract or reuse a brand kit before drawing hi-fi screens.
+1. If the job is a new website or landing, follow `.cursor/skills/website-job/SKILL.md` and run the full job in one conversation.
+2. Identify any other specialist in `.cursor/skills/` only when the designer asked for a slice (banners, edit, wireframes only).
+3. Extract or reuse a brand kit before drawing hi-fi screens.
 3. Create a new Figma file per client in the Hellenic Technologies team. Do not add client work to the Operating Kit.
 4. Confirm Figma access with `whoami` if write calls fail.
 5. QA before claiming the job is done.
