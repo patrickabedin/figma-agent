@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { AGENTS } from "@/lib/agents";
+import { modelForAgent } from "@/lib/models";
 
 export default function AgentsPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Specialists</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
-        Website Agent first. Specialists only when you need a slice.
+        One specialist per surface. Each one names its model.
       </h1>
       <p className="mt-4 max-w-2xl text-base text-ink-soft">
-        The Website Agent is the default. Use the other specialists only when the job is wireframes-only,
-        ads-only, or an edit to a file that already exists.
+        The Website Agent is the default for a new site. Use Banner, Campaign, Wireframe, or Figma Editor
+        when that is the job. Every specialist loads TasteSkill and prints the Cursor slug to launch on.
       </p>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">
@@ -27,7 +28,14 @@ export default function AgentsPage() {
               <List title="Needs" items={agent.inputs} />
               <List title="Leaves behind" items={agent.outputs} />
             </div>
-            <p className="mt-4 font-mono text-[11px] text-ink-soft">{agent.skillPath}</p>
+            <p className="mt-4 text-sm">
+              <span className="font-medium">Launch on. </span>
+              {modelForAgent(agent.id).label}
+              <span className="mt-1 block font-mono text-[11px] text-ink-soft">
+                {modelForAgent(agent.id).slug}
+              </span>
+            </p>
+            <p className="mt-3 font-mono text-[11px] text-ink-soft">{agent.skillPath}</p>
           </article>
         ))}
       </div>

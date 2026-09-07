@@ -7,12 +7,11 @@ export default function StartersPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Saved Cloud Agents</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
-        Website Agent is live. The rest are ready to save when you want them.
+        Saved Cloud Agents for sites, banners, social, and edits.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
-        Paste the Website starter into a Cloud Agent on this repo and keep it. Designers then only add the
-        client URL and the Atelier brand kit. Banners, edits, and social use the same pattern after the
-        site is in Figma.
+        Paste a starter into a Cloud Agent on this repo and pick the model printed in the prompt. Designers
+        then only add the client URL, file, or brand kit. TasteSkill is in every starter.
       </p>
 
       <div className="mt-10 space-y-6">

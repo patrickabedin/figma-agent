@@ -12,8 +12,9 @@ const DEFAULT_DELIVERABLES: DeliverableId[] = ["website"];
 const JOB_PRESETS: { id: string; label: string; deliverables: DeliverableId[] }[] = [
   { id: "website", label: "Website", deliverables: ["website"] },
   { id: "landing", label: "Landing", deliverables: ["landing"] },
+  { id: "banners", label: "Banners only", deliverables: ["banners"] },
+  { id: "social", label: "Social / campaign", deliverables: ["social"] },
   { id: "wireframes", label: "Wireframes only", deliverables: ["wireframes"] },
-  { id: "banners", label: "Banners next", deliverables: ["website", "banners"] },
   { id: "edit", label: "Edit Figma", deliverables: ["figma-edit"] },
 ];
 
@@ -79,10 +80,11 @@ export function BriefForm() {
       <form id="brief-form" onSubmit={onSubmit} className="hairline rounded-3xl bg-paper-2 p-6 sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-ink-soft">New website job</p>
-            <h2 className="serif mt-2 text-3xl sm:text-4xl">URL or style guide in. Website Agent packet out.</h2>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-ink-soft">New design job</p>
+            <h2 className="serif mt-2 text-3xl sm:text-4xl">URL or style guide in. Taste-checked packets out.</h2>
             <p className="mt-2 max-w-xl text-sm text-ink-soft">
-              Default is a full website. Add banners or an existing Figma file only when that is part of this job.
+              Default is a full website. Switch the job to banners, social, wires, or an existing Figma file.
+              Every packet names the model Cursor should launch.
             </p>
           </div>
           <button

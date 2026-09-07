@@ -1,6 +1,8 @@
 import { AGENTS, DELIVERABLE_LABELS, agentsForDeliverables } from "./agents";
 import { FIGMA_TEAM_NAME, FIGMA_TEAM_PLAN_KEY, OPERATING_KIT } from "./constants";
+import { modelForAgent, recommendModel } from "./models";
 import { BANNER_SIZES, DEFAULT_WEBSITE_PAGES, QUALITY_GATES, WEB_BREAKPOINTS } from "./presets";
+import { inferDesignRead, tasteLoadLines } from "./taste";
 import type { AgentPacket, BrandKit, BriefInput, StudioBrief } from "./types";
 
 export function generateStudioBrief(input: BriefInput, brandKit: BrandKit): StudioBrief {
@@ -10,11 +12,15 @@ export function generateStudioBrief(input: BriefInput, brandKit: BrandKit): Stud
     .filter((agent): agent is (typeof AGENTS)[number] => !!agent)
     .map((agent) => buildPacket(agent.id, input, brandKit));
 
+  const lead = recommendModel(input.deliverables);
   return {
     createdAt: new Date().toISOString(),
     input,
     brandKit,
     packets,
+    designRead: inferDesignRead(input, brandKit),
+    recommendedModel: lead.slug,
+    recommendedModelLabel: lead.label,
   };
 }
 
@@ -24,23 +30,67 @@ function buildPacket(
   brandKit: BrandKit,
 ): AgentPacket {
   const context = briefContext(input, brandKit);
+  const packet = packetBody(agentId, input, brandKit, context);
+  return finishPacket(agentId, packet.title, packet.summary, packet.body, input, brandKit);
+}
 
+function finishPacket(
+  agentId: AgentPacket["agentId"],
+  title: string,
+  summary: string,
+  body: string,
+  input: BriefInput,
+  brandKit: BrandKit,
+): AgentPacket {
+  const designRead = inferDesignRead(input, brandKit);
+  const model = modelForAgent(agentId);
+  const redesign =
+    Boolean(input.existingFigmaUrl) || /redesign|refresh|existing/i.test(`${input.goals} ${input.websiteUrl}`);
+  const taste = [
+    "TASTE + MODEL (sites, banners, social, wire, pitch, edits)",
+    `- Design read: ${designRead}`,
+    `- Launch this specialist on ${model.label}`,
+    `- Cursor model slug: ${model.slug}`,
+    `- Load skills: ${tasteLoadLines({ redesign }).join(" → ")}`,
+    "- If this parent chat is GPT or Codex: load gpt-taste and use gpt-5.6-sol-xhigh instead",
+    "- Do not run hi-fi, banners, or campaign on a fast/small model",
+    "- Client brand beats TasteSkill defaults (keep purple only if the brand is already purple)",
+    "",
+  ].join("\n");
+
+  return {
+    agentId,
+    title,
+    summary,
+    recommendedModel: model.slug,
+    recommendedModelLabel: model.label,
+    designRead,
+    prompt: `${taste}${body}`,
+  };
+}
+
+function packetBody(
+  agentId: AgentPacket["agentId"],
+  input: BriefInput,
+  brandKit: BrandKit,
+  context: string,
+): { title: string; summary: string; body: string } {
   switch (agentId) {
     case "website-job":
       return {
-        agentId,
         title: "Website Agent — full job",
-        summary: "One Cloud Agent. Brand kit, wireframes, hi-fi desktop + mobile, then QA.",
-        prompt: `${context}
+        summary: "One Cloud Agent on Claude Opus thinking. Brand kit, wireframes, hi-fi desktop + mobile, then QA.",
+        body: `${context}
 
 You are the Hellenic Technologies Website Agent. Run the full website job in this single conversation. Do not stop after the brand page.
 
 Follow, in order:
-1. .cursor/skills/website-job/SKILL.md
-2. .cursor/skills/brand-kit/SKILL.md
-3. .cursor/skills/wireframe/SKILL.md
-4. .cursor/skills/web-design/SKILL.md
-5. .cursor/skills/design-qa/SKILL.md
+1. .cursor/skills/anti-slop/SKILL.md
+2. .cursor/skills/website-job/SKILL.md
+3. .cursor/skills/brand-kit/SKILL.md
+4. .cursor/skills/wireframe/SKILL.md
+5. .cursor/skills/web-design/SKILL.md
+6. .cursor/skills/design-qa/SKILL.md
 
 Also load Figma skills before writing: figma-create-new-file, figma-use, figma-generate-design.
 
@@ -59,6 +109,7 @@ PHASE B — Wireframes
 - Sitemap from extracted nav, adapted to: ${DEFAULT_WEBSITE_PAGES.join(", ")}
 - Desktop ${WEB_BREAKPOINTS[2].width} and mobile ${WEB_BREAKPOINTS[0].width} for Home + at least three inner pages
 - Grayscale only. Real language (${input.language || "source language"}). Mark missing copy with [need: …]
+- Do not lock a three-equal-card row into the IA
 
 PHASE C — Hi-fi
 - Paint on that IA. Homepage + at least three inner templates (or one landing if that is the only deliverable)
@@ -66,6 +117,7 @@ PHASE C — Hi-fi
 - Componentize header, footer, button, card, input
 - Capture imagery from the live site. Empty gray photo slots are a defect
 - Bind tokens. No leftover “Title / Button”
+- Scan TasteSkill Section 9 before claiming done
 
 PHASE D — QA
 - Check every quality gate:
@@ -77,32 +129,31 @@ Return the Figma file URL when done.`,
       };
     case "intake":
       return {
-        agentId,
         title: "1. Intake / Orchestrator",
-        summary: "Confirm the brief, then run Brand Kit before any visual work.",
-        prompt: `${context}
+        summary: "Confirm the brief, pick the model, then run Brand Kit before any visual work.",
+        body: `${context}
 
 You are the Intake / Orchestrator for Hellenic Technologies design jobs.
 
-Follow .cursor/skills/design-intake/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/design-intake/SKILL.md.
 
 Do this:
 1. Restate the brief in five lines: client, job, audience, deliverables, constraints.
-2. Flag missing inputs (logo files, claims that need legal, languages, competitors).
-3. Do not design screens yet.
-4. Hand off to Brand Kit next, then the specialists listed in this Studio brief.
-5. If an existing Figma URL is present, schedule Figma Editor after Brand Kit — do not duplicate the file.`,
+2. Name the surface (website, landing, banners, social, pitch, wireframes, edit) and the recommended model.
+3. Flag missing inputs (logo files, claims that need legal, languages, competitors).
+4. Do not design screens yet.
+5. Hand off to Brand Kit next, then the specialists listed in this Studio brief.
+6. If an existing Figma URL is present, schedule Figma Editor after Brand Kit — do not duplicate the file.`,
       };
     case "brand-kit":
       return {
-        agentId,
         title: "2. Brand Kit",
-        summary: "Write tokens into a new Figma file before wireframes or ads.",
-        prompt: `${context}
+        summary: "Write tokens into a new Figma file before wireframes, ads, or social.",
+        body: `${context}
 
 You are the Brand Kit agent.
 
-Follow .cursor/skills/brand-kit/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/brand-kit/SKILL.md.
 
 Create a new Figma design file in the ${FIGMA_TEAM_NAME} team (planKey ${FIGMA_TEAM_PLAN_KEY}) named:
 “${input.clientName || brandKit.name} — Brand + ${deliverableTitle(input)}”.
@@ -120,14 +171,13 @@ Reuse patterns from the Operating Kit (${OPERATING_KIT.url}) only as structure, 
       };
     case "wireframe":
       return {
-        agentId,
         title: "3. Wireframes",
         summary: "Grayscale IA in desktop and mobile before any color pass.",
-        prompt: `${context}
+        body: `${context}
 
 You are the Wireframe agent.
 
-Follow .cursor/skills/wireframe/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/wireframe/SKILL.md.
 
 In the client Figma file, add a Wireframes page:
 - Sitemap covering: ${DEFAULT_WEBSITE_PAGES.join(", ")} — adapt to the extracted nav
@@ -135,19 +185,19 @@ In the client Figma file, add a Wireframes page:
 - Grayscale only. No brand color, no dummy photography
 - Real labels from the source site language (${input.language || "source language"})
 - Annotate conversion goals and leftover content questions
+- Do not lock three equal cards into the structure if the hi-fi should be editorial
 
 Stop after wireframes unless the designer also asked for hi-fi in the same run.`,
       };
     case "web-design":
       return {
-        agentId,
         title: "4. Website Designer",
         summary: "High-fidelity marketing pages that look like this client, not a template.",
-        prompt: `${context}
+        body: `${context}
 
 You are the Website Designer agent.
 
-Follow .cursor/skills/web-design/SKILL.md and Figma skills figma-use + figma-generate-design.
+Follow .cursor/skills/anti-slop/SKILL.md, .cursor/skills/web-design/SKILL.md, and Figma skills figma-use + figma-generate-design.
 
 Produce hi-fi frames in the same client file:
 - Homepage + at least three inner templates (or a single landing if that is the only deliverable)
@@ -157,6 +207,7 @@ Produce hi-fi frames in the same client file:
 - Componentize header, footer, buttons, cards, form fields
 - Photography: capture from the live site when possible; do not leave empty gray slots
 - Write in the client’s language (${input.language || "source language"})
+- Scan TasteSkill Section 9. No mesh blobs, no three-equal-card row, no em-dashes
 
 Quality gates:
 ${QUALITY_GATES.map((gate) => `- ${gate}`).join("\n")}
@@ -165,36 +216,37 @@ Take screenshots after each major section and fix clipping, overlap, and leftove
       };
     case "banner-design":
       return {
-        agentId,
         title: "5. Banner / Campaign",
-        summary: "One master concept, then a disciplined resize set.",
-        prompt: `${context}
+        summary: "One master concept, then a disciplined resize set. Same TasteSkill bans as websites.",
+        body: `${context}
 
 You are the Banner / Campaign agent.
 
-Follow .cursor/skills/banner-design/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/banner-design/SKILL.md.
 
 In the client Figma file, add a Banners page:
-1. Design one master concept at 1920×1080 and 1080×1080
-2. Resize into this set unless the brief names fewer sizes:
+1. Write one line first: offer, proof, CTA
+2. Design one master concept at 1920×1080 and 1080×1080
+3. Resize into this set unless the brief names fewer sizes:
 ${BANNER_SIZES.map((size) => `   - ${size.name} ${size.width}×${size.height} (${size.use})`).join("\n")}
-3. Keep a hard type hierarchy: offer, proof, CTA
-4. Respect safe zones — no crop-critical logo or CTA in the outer 8%
-5. Variants: at least one with more product, one with more offer
-6. Name frames “Channel / Size / Variant”
+4. Keep a hard type hierarchy: offer, proof, CTA
+5. Respect safe zones — no crop-critical logo or CTA in the outer 8%
+6. Variants: at least one with more product, one with more offer
+7. Name frames “Channel / Size / Variant”
+8. TasteSkill still applies: no mesh blobs, no three identical tiles, no Elevate/Unleash, no Inter-by-default
+9. Type must still read at 320×100
 
 Do not create a different idea per size. The media team should recognize one campaign.`,
       };
     case "figma-edit":
       return {
-        agentId,
         title: "6. Figma Editor",
-        summary: "Edit the existing file. Do not rebuild it.",
-        prompt: `${context}
+        summary: "Edit the existing file. Do not rebuild it. Do not introduce AI-slop while editing.",
+        body: `${context}
 
 You are the Figma Editor agent.
 
-Follow .cursor/skills/figma-edit/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/figma-edit/SKILL.md.
 
 Existing file: ${input.existingFigmaUrl || "(designer will paste the file URL)"}
 
@@ -204,18 +256,18 @@ Rules:
 - Prefer swapping instances and editing text/variables over drawing new primitives
 - Leave unrelated frames alone
 - Add a “Change log” frame listing what moved, with node IDs
-- If a change fights the existing system, stop and write the conflict instead of inventing a second system`,
+- If a change fights the existing system, stop and write the conflict instead of inventing a second system
+- Do not “modernize” with mesh blobs, Inter, or a three-card row the file did not already have`,
       };
     case "design-qa":
       return {
-        agentId,
         title: "7. Design QA",
-        summary: "Critic pass against brand, type, contrast, and handoff.",
-        prompt: `${context}
+        summary: "Critic pass against brand, TasteSkill, type, contrast, and handoff.",
+        body: `${context}
 
 You are the Design QA agent.
 
-Follow .cursor/skills/design-qa/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/design-qa/SKILL.md.
 
 Review the client Figma file against the brief and brand kit.
 File a QA page with severity: Blocker / Major / Nit.
@@ -226,14 +278,13 @@ If asked to fix, patch blockers and majors in place. Do not restyle the whole jo
       };
     case "design-system":
       return {
-        agentId,
         title: "8. Design System",
         summary: "Promote the approved screens into a reusable library.",
-        prompt: `${context}
+        body: `${context}
 
 You are the Design System agent.
 
-Follow .cursor/skills/design-system/SKILL.md and Figma skill figma-generate-library.
+Follow .cursor/skills/anti-slop/SKILL.md, .cursor/skills/design-system/SKILL.md, and Figma skill figma-generate-library.
 
 From the approved hi-fi screens, create:
 - Variable collections for color, space, radius
@@ -241,25 +292,26 @@ From the approved hi-fi screens, create:
 - Components: button, input, nav, card, footer, logo
 - A documentation page with usage, do/don’t, and theming notes
 
-Publish-ready naming. No one-off hex left on reusable parts.`,
+Publish-ready naming. No one-off hex left on reusable parts.
+Do not encode a three-equal-card template or Inter fallback into the library.`,
       };
     case "campaign":
       return {
-        agentId,
         title: "9. Campaign / Social",
-        summary: "Extend the brand into launch and social surfaces.",
-        prompt: `${context}
+        summary: "Extend the brand into launch and social surfaces with the same taste rules.",
+        body: `${context}
 
 You are the Campaign / Social agent.
 
-Follow .cursor/skills/campaign/SKILL.md.
+Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/campaign/SKILL.md.
 
 Create a Campaign page with:
 - 1:1, 4:5, and 9:16 masters
 - LinkedIn landscape if B2B
 - Optional landing-page variant if the website is not in scope
 - Consistent CTA language from the brief
-- File names the ads team can drop into a media plan`,
+- File names the ads team can drop into a media plan
+- Same TasteSkill bans as websites and banners. One idea, not a new look per ratio.`,
       };
   }
 }
@@ -291,6 +343,8 @@ function deliverableTitle(input: BriefInput): string {
   if (input.deliverables.includes("website")) return "Website";
   if (input.deliverables.includes("landing")) return "Landing";
   if (input.deliverables.includes("banners")) return "Campaign";
+  if (input.deliverables.includes("social")) return "Social";
+  if (input.deliverables.includes("pitch")) return "Pitch";
   if (input.deliverables.includes("figma-edit")) return "Edits";
   return "Design";
 }

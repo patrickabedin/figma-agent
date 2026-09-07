@@ -2,7 +2,7 @@
 
 Designer intake and specialist agents for the Hellenic Technologies Figma desk.
 
-Atelier is the front door. A designer pastes a client URL or drops a style guide. The studio extracts a brand kit and writes Cloud Agent packets. Those agents build websites, wireframes, banners, and in-file edits in Figma.
+Atelier is the front door. A designer pastes a client URL or drops a style guide. The studio extracts a brand kit, writes a TasteSkill design read, and builds Cloud Agent packets that name the Cursor model to launch. Those agents build websites, banners, social, wireframes, and in-file edits in Figma.
 
 ## Figma access
 
@@ -26,12 +26,12 @@ https://www.figma.com/design/2k2H00PKTb87JeKvlpHDIv
 
 1. Open Atelier and start a **new brief**.
 2. Enter the live website and/or upload the brand guide.
-3. The default job is **Website**. Add banners or an existing Figma file only when needed.
-4. Copy the Website Agent packet. One Cloud Agent runs brand, wireframes, hi-fi, and QA.
-5. Open a Cursor Cloud Agent on this repository, paste the packet, attach the same guide files.
+3. Pick the job: Website (default), Landing, Banners only, Social, Wireframes, or Edit Figma.
+4. Copy the first packet. It already includes TasteSkill load lines and the Cursor model slug.
+5. Open a Cursor Cloud Agent on this repository on that model (`claude-opus-5-thinking-high` for hi-fi and ads). Paste the packet and attach the same guide files.
 6. Review in Figma. Send change lists to the Figma Editor agent. Run Design QA before the client.
 
-Playbook in the app: `/playbook`. Agent catalog: `/agents`.
+Playbook: `/playbook`. Taste + models: `/taste`. Agent catalog: `/agents`.
 
 ## Dedicated agents
 
@@ -58,4 +58,6 @@ npm run dev
 
 - New client = new Figma file. Never dump work into the Operating Kit.
 - No Inter-by-default. No lorem when the source site has language.
+- TasteSkill on every surface: no mesh blobs, three-equal-card rows, or Elevate/Unleash.
+- Hi-fi and banners launch on Claude Opus thinking, not a fast/small model.
 - Edit jobs inspect the existing system before drawing anything new.

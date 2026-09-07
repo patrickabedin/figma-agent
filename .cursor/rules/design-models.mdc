@@ -1,0 +1,18 @@
+---
+description: Route design jobs to TasteSkill and to models that can actually draw
+alwaysApply: true
+---
+
+Any design work in this repo (websites, banners, social, wireframes, brand kits, Figma edits, pitch, design systems) is TasteSkill work. Load `.cursor/skills/anti-slop/SKILL.md` before drawing.
+
+## Models
+
+When you spawn a design subagent, or when you tell a designer which Cloud Agent model to pick:
+
+- Hi-fi, banners, campaign, brand, QA: `claude-opus-5-thinking-high` (Claude Opus 5 thinking, high). Escalate to `claude-opus-5-thinking-xhigh` if the first pass still looks like a template.
+- Wireframes, intake, mechanical Figma edits: `claude-sonnet-5-thinking-high`.
+- If the running agent is GPT or Codex: load `.cursor/skills/gpt-taste/SKILL.md` and use `gpt-5.6-sol-xhigh`. Never a mini/fast GPT for pixels.
+
+Do not draw hi-fi or banners on a small/fast model. TasteSkill cannot save a model that only completes templates.
+
+If the parent chat is already on a recommended model, stay on it. Do not downgrade.

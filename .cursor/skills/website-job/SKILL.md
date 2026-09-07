@@ -5,7 +5,9 @@ description: Run a full Hellenic website job in one Cloud Agent — brand kit, w
 
 # Website Agent — full job
 
-This is the default path. Websites first. Do not split into four chats unless the designer asked for only one slice.
+Load `.cursor/skills/anti-slop/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Launch on `claude-opus-5-thinking-high` (or `gpt-5.6-sol-xhigh` + `gpt-taste` if this chat is GPT/Codex).
+
+This is the default path for a full site. Do not split into four chats unless the designer asked for only one slice.
 
 ## Sequence (do not skip)
 

@@ -5,12 +5,14 @@ alwaysApply: true
 
 You are working in the Hellenic Technologies design-agent repository.
 
-For design work (Figma, banners, websites, wireframes, brand kits, style guides):
-1. If the job is a new website or landing, follow `.cursor/skills/website-job/SKILL.md` and run the full job in one conversation.
-2. Identify any other specialist in `.cursor/skills/` only when the designer asked for a slice (banners, edit, wireframes only).
-3. Extract or reuse a brand kit before drawing hi-fi screens.
-3. Create a new Figma file per client in the Hellenic Technologies team. Do not add client work to the Operating Kit.
-4. Confirm Figma access with `whoami` if write calls fail.
-5. QA before claiming the job is done.
+For any design work (Figma, websites, banners, social, pitch, wireframes, brand kits, edits):
 
-If the designer pastes a Studio packet, treat the JSON brand kit as source of truth unless attached files contradict it.
+1. Load `.cursor/skills/anti-slop/SKILL.md` and TasteSkill before drawing. Launch on the model in `.cursor/rules/design-models.mdc`.
+2. If the job is a new website or landing, follow `.cursor/skills/website-job/SKILL.md` and run the full job in one conversation.
+3. Identify any other specialist in `.cursor/skills/` only when the designer asked for a slice (banners, social, edit, wireframes only).
+4. Extract or reuse a brand kit before drawing hi-fi screens or ads.
+5. Create a new Figma file per client in the Hellenic Technologies team. Do not add client work to the Operating Kit.
+6. Confirm Figma access with `whoami` if write calls fail.
+7. QA before claiming the job is done. TasteSkill Section 9 applies to banners and social, not only websites.
+
+If the designer pastes a Studio packet, treat the JSON brand kit as source of truth unless attached files contradict it. Honor the packet’s recommended model slug when spawning a subagent.

@@ -11,7 +11,7 @@ export const STARTERS: Starter[] = [
     id: "website",
     title: "Website Agent",
     status: "live",
-    blurb: "Default. Brand kit, wireframes, hi-fi desktop and mobile, QA — one Cloud Agent.",
+    blurb: "Default site job on Claude Opus thinking. Brand kit, wires, hi-fi, QA — one Cloud Agent.",
     href: "/starters#website",
   },
   {
@@ -24,8 +24,8 @@ export const STARTERS: Starter[] = [
   {
     id: "banners",
     title: "Banners / Campaign",
-    status: "next",
-    blurb: "After the website (or when ads are the only ask). One idea, many sizes.",
+    status: "live",
+    blurb: "Ads-only or after the site. One idea, many sizes. Same TasteSkill bans. Opus thinking.",
     href: "/starters#banners",
   },
   {
@@ -38,8 +38,8 @@ export const STARTERS: Starter[] = [
   {
     id: "campaign",
     title: "Social / launch",
-    status: "next",
-    blurb: "Extend the site into 1:1, 4:5, 9:16, LinkedIn.",
+    status: "live",
+    blurb: "Extend the site into 1:1, 4:5, 9:16, LinkedIn. Opus thinking. No new brand per ratio.",
     href: "/starters#campaign",
   },
   {

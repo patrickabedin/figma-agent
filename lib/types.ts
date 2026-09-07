@@ -77,6 +77,9 @@ export type AgentPacket = {
   title: string;
   summary: string;
   prompt: string;
+  recommendedModel: string;
+  recommendedModelLabel: string;
+  designRead: string;
 };
 
 export type StudioBrief = {
@@ -84,4 +87,7 @@ export type StudioBrief = {
   input: BriefInput;
   brandKit: BrandKit;
   packets: AgentPacket[];
+  designRead: string;
+  recommendedModel: string;
+  recommendedModelLabel: string;
 };

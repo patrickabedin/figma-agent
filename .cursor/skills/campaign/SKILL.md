@@ -5,6 +5,8 @@ description: Extend a brand kit into social, launch, and pitch surfaces. Use for
 
 # Campaign / Social
 
+Load `.cursor/skills/anti-slop/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Launch on `claude-opus-5-thinking-high`. Same bans as websites and banners.
+
 ## Build
 
 1. Page `05 Campaign`.

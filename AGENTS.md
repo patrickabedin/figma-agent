@@ -29,7 +29,22 @@ This repository is the operating system for the design team.
 | Critique / before client send | `design-qa` (already inside website-job) |
 | Components from approved screens | `design-system` |
 
-Websites first. Saved starters live in `starters/`. Default sequence is the Website Agent. Banners and edits are next, not parallel, unless the brief says so.
+Any design surface. Saved starters live in `starters/`. Default sequence for a new site is the Website Agent. Banners, social, and edits are first-class jobs with the same TasteSkill stack.
+
+## Taste + models
+
+Load `.cursor/skills/anti-slop/SKILL.md` before drawing. TasteSkill applies to websites, banners, social, pitch, wireframes, and in-file edits.
+
+When spawning a design subagent, or telling a designer which Cloud Agent model to pick:
+
+| Surface | Cursor slug |
+| --- | --- |
+| Hi-fi, banners, campaign, brand, QA | `claude-opus-5-thinking-high` |
+| Escalate if the first pass looks templated | `claude-opus-5-thinking-xhigh` |
+| Wireframes, intake, mechanical Figma edits | `claude-sonnet-5-thinking-high` |
+| Parent chat is GPT / Codex | `gpt-5.6-sol-xhigh` + load `gpt-taste` |
+
+Do not draw hi-fi or banners on a small/fast model. Studio packets print the slug.
 
 ## Hard rules
 
@@ -37,5 +52,6 @@ Websites first. Saved starters live in `starters/`. Default sequence is the Webs
 - Never use lorem ipsum when the source site has real language.
 - Never dump a new client into the Operating Kit. Create a new file.
 - Never rebuild a file the designer asked you to edit.
+- Never ship mesh blobs, three-equal-card rows, em-dashes, or Elevate/Unleash on any surface.
 - Load Figma skills before write tools: `figma-create-new-file`, `figma-use`, and `figma-generate-design` or `figma-generate-library` as required.
 - If the user has multiple Figma plans, use Hellenic Technologies (`team::835515410208041552`) unless they name the other team.

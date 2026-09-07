@@ -5,6 +5,8 @@ description: Build grayscale website information architecture and wireframes in 
 
 # Wireframe
 
+Load `.cursor/skills/anti-slop/SKILL.md` first. Launch on `claude-sonnet-5-thinking-high`. Grayscale is not an excuse for a three-card template — structure should already be asymmetric or editorial if the hi-fi will be.
+
 Grayscale only. Structure is the deliverable.
 
 ## Build

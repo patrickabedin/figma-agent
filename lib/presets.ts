@@ -39,4 +39,9 @@ export const QUALITY_GATES = [
   "Auto-layout is used for every structural group",
   "Imagery is cropped with intent; no empty gray photo slots in final comps",
   "A QA page lists open questions and deviations from the brief",
+  "TasteSkill: no mesh / AI-purple / neon glow unless the brand is purple (LILA)",
+  "TasteSkill: no three equal feature, case-study, or ad tiles in a row",
+  "TasteSkill: no em-dashes, 00 / INDEX eyebrows, or TYPE / FORM / MOTION strips",
+  "TasteSkill: no Elevate / Unleash / Seamless, fake product UI, or Inter-by-default",
+  "Banners and social: one campaign idea, safe zones, type still legal at 320×100",
 ] as const;

@@ -25,9 +25,12 @@ export function PacketList({ brief }: { brief: StudioBrief }) {
               : "Run these in order"}
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-            Open a Cloud Agent on this repo, paste the first prompt, and attach any style-guide files. Website jobs
-            run brand, wireframes, hi-fi, and QA in one chat. Extra packets are only for add-on work.
+            Open a Cloud Agent on this repo on <span className="text-ink">{brief.recommendedModelLabel}</span>
+            {" "}(<code className="font-mono text-[11px]">{brief.recommendedModel}</code>). Paste the first prompt
+            and attach any style-guide files. TasteSkill is already in the packet — sites, banners, and social
+            use the same bans.
           </p>
+          <p className="mt-3 max-w-2xl text-sm italic text-ink">{brief.designRead}</p>
         </div>
         <button
           type="button"
@@ -57,6 +60,9 @@ function PacketCard({ packet, featured = false }: { packet: AgentPacket; feature
           ) : null}
           <h3 className="serif text-2xl">{packet.title}</h3>
           <p className={`mt-1 text-sm ${featured ? "text-paper-2/70" : "text-ink-soft"}`}>{packet.summary}</p>
+          <p className={`mt-2 font-mono text-[11px] ${featured ? "text-[#e8c4b0]" : "text-copper"}`}>
+            Launch on {packet.recommendedModelLabel} · {packet.recommendedModel}
+          </p>
         </div>
         <CopyButton
           text={packet.prompt}

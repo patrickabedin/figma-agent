@@ -1,23 +1,24 @@
 import Link from "next/link";
 import { OPERATING_KIT } from "@/lib/constants";
+import { MODEL_TABLE } from "@/lib/models";
 import { BANNER_SIZES, QUALITY_GATES, WEB_BREAKPOINTS } from "@/lib/presets";
 
 const steps = [
   {
     title: "Collect what exists",
-    body: "A live URL is enough to start a website. A PDF style guide is better. An existing Figma file is required only when the job is an edit.",
+    body: "A live URL is enough to start. A PDF style guide is better. An existing Figma file is required only when the job is an edit.",
   },
   {
-    title: "Run the Website Agent",
-    body: "Atelier writes one packet. Paste it into a Cloud Agent on this repo. That agent runs brand kit, wireframes, hi-fi, and QA in the same chat.",
+    title: "Pick the surface and the model",
+    body: "Website, landing, banners, social, wires, or an in-file edit. Atelier writes the packet and names the Cursor slug. Hi-fi and ads launch on Claude Opus thinking. Wires and mechanical edits can stay on Sonnet thinking.",
   },
   {
-    title: "Review the Figma file",
+    title: "TasteSkill before polish",
+    body: "Every surface loads anti-slop. No mesh blobs, no three-equal-card rows, no Inter-by-default, no Elevate/Unleash. Client brand beats TasteSkill color defaults.",
+  },
+  {
+    title: "Review in Figma",
     body: "Humans still art-direct. Reject anything that looks like a generic template. Request edits with the Figma Editor starter.",
-  },
-  {
-    title: "Then the rest",
-    body: "After the site exists: banners, social, and a design system. Do not start those in parallel unless the brief is ads-only.",
   },
 ];
 
@@ -26,12 +27,12 @@ export default function PlaybookPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">How the desk works</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
-        Websites first. Banners and edits after the site exists.
+        Any design job. TasteSkill on every surface. The right model for the pixels.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
         This is the operating model for the Hellenic design team. Atelier is the front door. Cursor Cloud
-        Agents are the specialists. Figma is where work ships. Humans still decide, brief the client, and
-        reject anything that looks generic.
+        Agents are the specialists — launched on models that can actually draw. Figma is where work ships.
+        Humans still decide, brief the client, and reject anything that looks generic.
       </p>
 
       <ol className="mt-10 grid gap-4 md:grid-cols-2">
@@ -43,6 +44,28 @@ export default function PlaybookPage() {
           </li>
         ))}
       </ol>
+
+      <section className="mt-14">
+        <h2 className="serif text-3xl">Models Cursor should call</h2>
+        <ul className="mt-4 space-y-2 text-sm">
+          {MODEL_TABLE.map((model) => (
+            <li key={model.id} className="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:justify-between">
+              <span>
+                {model.label}
+                <span className="block text-xs text-ink-soft">{model.use}</span>
+              </span>
+              <span className="shrink-0 font-mono text-xs text-ink-soft">{model.slug}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-sm text-ink-soft">
+          Full stack and banned tells live on{" "}
+          <Link href="/taste" className="text-ink underline decoration-line underline-offset-4">
+            Taste
+          </Link>
+          .
+        </p>
+      </section>
 
       <section className="mt-14 grid gap-8 lg:grid-cols-2">
         <div>
@@ -99,16 +122,16 @@ export default function PlaybookPage() {
             .
           </li>
           <li>
-            Save the Website Agent starter first (`/starters`). Add banner and Figma-edit starters after the
-            first sites are shipping.
+            Save the Website, Banner, and Figma Editor starters (`/starters`). Designers then only paste the
+            client URL or file and the Atelier brand kit.
           </li>
           <li>
             For retainers, run Design System after the first approved site so the second campaign is
             instance-swaps, not redraws.
           </li>
           <li>
-            Add competitive teardowns as a tenth packet only when the client has no site and a thin guide —
-            otherwise you will design their competitor.
+            If a first hi-fi or banner pass still looks like a template, re-run on{" "}
+            <code>claude-opus-5-thinking-xhigh</code>. TasteSkill cannot save a small/fast model.
           </li>
           <li>
             Humans still art-direct. The agents are fast hands with a house style, not the creative
@@ -119,7 +142,7 @@ export default function PlaybookPage() {
           href="/"
           className="mt-6 inline-flex rounded-full bg-ink px-4 py-2 text-sm text-paper-2 hover:bg-copper-deep"
         >
-          Start a website
+          Start a job
         </Link>
       </section>
     </div>

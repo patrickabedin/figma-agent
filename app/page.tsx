@@ -5,18 +5,21 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <section className="max-w-3xl">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Websites first</p>
+        <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Any design job</p>
         <h1 className="serif mt-3 text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-          Start every new site from the live URL.
+          Sites, banners, social — TasteSkill and a model that can draw.
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-ink-soft sm:text-lg">
-          Paste the client’s existing website or drop their style guide. Atelier extracts the brand and
-          writes one Website Agent packet — brand kit, wireframes, hi-fi desktop and mobile, then QA.
-          Banners, social, and in-file edits come after.
+          Paste the client URL or drop a style guide. Atelier extracts the brand, writes a design read, and
+          builds specialist packets that launch on Claude Opus thinking for hi-fi and banners, Sonnet thinking
+          for wires and mechanical edits. TasteSkill applies to every surface, not only websites.
         </p>
         <div className="mt-6 flex flex-wrap gap-3 text-sm">
           <StatusChip label="Hellenic Technologies Pro seat" />
           <StatusChip label="Patrick Abedin · Full" />
+          <a className="rounded-full border border-line px-3 py-1 text-ink-soft hover:text-ink" href="/taste">
+            TasteSkill + models
+          </a>
           <a className="rounded-full border border-line px-3 py-1 text-ink-soft hover:text-ink" href={SAMPLE_WEBSITE.url}>
             Sample website in Figma
           </a>
