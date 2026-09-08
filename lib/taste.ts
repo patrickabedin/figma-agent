@@ -117,24 +117,38 @@ export function inferSurface(input: BriefInput): string {
 }
 
 export function inferDesignRead(input: BriefInput, kit: BrandKit): string {
-  const blob = [input.audience, input.goals, kit.tagline, kit.description, kit.voice.join(" ")]
+  const blob = [input.audience, input.goals, kit.tagline, kit.description, kit.voice.join(" "), kit.sitemapHints.join(" ")]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 
   const pageKind = inferSurface(input);
-  const audience = input.audience || "business buyers";
+  const audience = inferAudience(input.audience, blob);
 
   let vibe = "serious B2B services";
-  if (/editorial|magazine|publisher/.test(blob)) vibe = "editorial";
+  if (/rent|rental|booking|airport|fleet|car hire|road trip|destination/.test(blob)) {
+    vibe = "travel / booking, destination-led";
+  } else if (/editorial|magazine|publisher/.test(blob)) vibe = "editorial";
   else if (/luxury|premium|hotel|fashion/.test(blob)) vibe = "premium consumer";
   else if (/playful|kids|game/.test(blob)) vibe = "playful";
   else if (/gov|public|health|legal/.test(blob)) vibe = "trust-first";
-  else if (/agency|marketing|ai agents|website/.test(blob)) vibe = "agency, type-led, not SaaS-template";
+  else if (/agency|marketing|ai agents/.test(blob)) vibe = "agency, type-led, not SaaS-template";
 
-  const family = kit.fonts[0]?.family
-    ? `${kit.fonts[0].family} + client palette`
+  const face = kit.fonts.find((font) => font.family && !/inherit|var\(/i.test(font.family))?.family;
+  const primary = kit.colors.find((color) => color.role === "primary")?.hex;
+  const family = face
+    ? `${face}${primary ? ` + ${primary}` : " + client palette"}`
     : "client type + restrained accent";
 
   return `Reading this as: ${pageKind} for ${audience}, with a ${vibe} language, leaning toward ${family}. Not an AI-purple SaaS landing.`;
+}
+
+function inferAudience(explicit: string, blob: string): string {
+  if (explicit.trim()) return explicit.trim();
+  if (/rent|rental|booking|airport|fleet|car hire/.test(blob)) {
+    return "travelers booking airport and island cars";
+  }
+  if (/hotel|guest|resort/.test(blob)) return "guests and bookers";
+  if (/patient|clinic|health/.test(blob)) return "patients";
+  return "the people on the live site";
 }

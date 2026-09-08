@@ -14,7 +14,7 @@ export const CODE_STACK = [
   {
     id: "type",
     name: "next/font + client face",
-    role: "The brand typeface (Source Sans 3 when that is the kit). Never Inter-by-default.",
+    role: "The face in the brand kit. Never Inter-by-default unless Inter is that face.",
   },
   {
     id: "shadcn",

@@ -24,6 +24,7 @@ export function BrandKitPreview({ kit }: { kit: BrandKit }) {
               <div className="px-2.5 py-2 text-[11px]">
                 <p className="font-medium">{color.hex}</p>
                 <p className="text-ink-soft">{color.role}</p>
+                <p className="truncate text-ink-soft">{color.source}</p>
               </div>
             </div>
           ))}

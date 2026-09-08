@@ -62,6 +62,7 @@ function finishPacket(
     codeFirst
       ? "- Do not call generate_figma_design or paint a full site in Figma in this run"
       : "- Figma is the deliverable surface for this job",
+    brandKit.warnings.length ? `- Kit warnings: ${brandKit.warnings.join(" | ")}` : "",
     "",
   ].join("\n");
 
@@ -96,7 +97,7 @@ Follow .cursor/skills/website-job/SKILL.md. Stack — do not substitute:
 ${CODE_STACK.map((item) => `- ${item.name}: ${item.role}`).join("\n")}
 
 Sitemap to keep in mind (implement Home only unless the designer already accepted Home):
-${DEFAULT_WEBSITE_PAGES.map((page) => `- ${page}`).join("\n")}
+${sitemapForPacket(brandKit).map((page) => `- ${page}`).join("\n")}
 
 Stop gates — honor each one. Do not skip to the next phase without a human OK:
 ${WEBSITE_STOP_GATES.map((gate) => `- ${gate}`).join("\n")}
@@ -109,7 +110,8 @@ ${FIGMA_HANDOFF_STEPS.map((step) => `- ${step}`).join("\n")}
 
 Do not put work in the Operating Kit (${OPERATING_KIT.url}).
 Do not use Magic UI / Aceternity as the visual system.
-Do not invent a new palette when the kit already has one (Hellenic gold/cyan/Source Sans 3 stays if that is the kit).
+Do not invent a new palette when the kit already has one. Hellenic gold / cyan / Source Sans 3 only if this client is Hellenic Technologies.
+If Inter is in this kit, keep Inter. The Inter ban is only when Inter is a leftover fallback.
 
 Return the Vercel preview URL (or local screenshots) when PHASE D/E is done. Return a Figma URL only after PHASE F.`,
       };
@@ -167,7 +169,7 @@ You are the Wireframe agent.
 Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/wireframe/SKILL.md.
 
 In the client Figma file, add a Wireframes page:
-- Sitemap covering: ${DEFAULT_WEBSITE_PAGES.join(", ")} — adapt to the extracted nav
+- Sitemap covering: ${sitemapForPacket(brandKit).join(", ")} — use extracted nav, not a generic agency IA
 - Desktop ${WEB_BREAKPOINTS[2].width} and mobile ${WEB_BREAKPOINTS[0].width} for each key page
 - Grayscale only. No brand color, no dummy photography
 - Real labels from the source site language (${input.language || "source language"})
@@ -331,6 +333,12 @@ BRAND KIT JSON
 ${JSON.stringify(brandKit, null, 2)}
 
 If style guides were uploaded in Studio, the designer must also attach those files to this Cloud Agent chat. Treat attached files as source of truth over guessed tokens.`;
+}
+
+function sitemapForPacket(brandKit: BrandKit): string[] {
+  const extracted = brandKit.sitemapHints.filter((label) => label.length > 1);
+  if (extracted.length >= 4) return extracted.slice(0, 10);
+  return [...DEFAULT_WEBSITE_PAGES];
 }
 
 function deliverableTitle(input: BriefInput): string {
