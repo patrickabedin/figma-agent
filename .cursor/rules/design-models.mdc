@@ -15,4 +15,4 @@ The Cloud Agent chat model is not the art engine. When you need imagery, call a 
 - Fine-tune / local / LoRA → Stable Diffusion 3.5
 - Blend into an existing photo, Creative Cloud → Adobe Firefly 5
 
-Honor the image plan on an Atelier packet. POST `/api/image` — one OpenRouter key calls the specialist (or its documented stand-in). Set UI type in Figma unless the job is type-in-image. Empty gray photo slots are a defect.
+Honor the image plan on an Atelier packet. POST `/api/image` — one OpenRouter key calls the specialist (or its documented stand-in). Set website UI type in the Next app. Set banner/social type-in-image with Ideogram. Empty gray photo slots are a defect.

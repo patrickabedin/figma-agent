@@ -53,7 +53,7 @@ export const TASTE_STACK = [
     id: "full-output-enforcement",
     name: "TasteSkill output",
     href: "https://www.tasteskill.dev/docs",
-    role: "No placeholders, no skipped sections, no half-finished frames.",
+    role: "No placeholders, no skipped sections, no half-finished pages or frames.",
     path: ".cursor/skills/full-output-enforcement/SKILL.md",
     when: "Every Figma and code deliverable",
   },
@@ -61,15 +61,15 @@ export const TASTE_STACK = [
     id: "image-to-code",
     name: "TasteSkill image-to-code",
     href: "https://www.tasteskill.dev/docs",
-    role: "Reference frames first when the brief is visual. Implement against the reference.",
+    role: "Section comps first on website jobs. Implement the Next page against the human pick.",
     path: ".cursor/skills/image-to-code/SKILL.md",
-    when: "Designer attaches a mock or wants a coded site from Figma",
+    when: "After the designer picks comps, before coding the homepage",
   },
   {
     id: "vercel-react-best-practices",
     name: "Vercel React best practices",
     href: "https://github.com/vercel-labs/agent-skills",
-    role: "Performance when the website is implemented in Next.js, not when drawing Figma.",
+    role: "Performance on the Next.js homepage. Skip for banners and Figma-only jobs.",
     path: ".agents/skills/vercel-react-best-practices/SKILL.md",
     when: "Code implementation only",
   },
@@ -87,7 +87,7 @@ export const ANTI_SLOP_BANS = [
   "A whole landing page crammed into a 300×250, or a new concept per banner size",
 ] as const;
 
-export function tasteLoadLines(opts?: { gpt?: boolean; redesign?: boolean }): string[] {
+export function tasteLoadLines(opts?: { gpt?: boolean; redesign?: boolean; codeFirst?: boolean }): string[] {
   const lines = [
     ".cursor/skills/anti-slop/SKILL.md",
     ".cursor/skills/image-models/SKILL.md",
@@ -95,6 +95,9 @@ export function tasteLoadLines(opts?: { gpt?: boolean; redesign?: boolean }): st
   ];
   if (opts?.gpt) lines.push(".cursor/skills/gpt-taste/SKILL.md");
   if (opts?.redesign) lines.push(".cursor/skills/redesign-existing-projects/SKILL.md");
+  if (opts?.codeFirst) {
+    lines.push(".cursor/skills/image-to-code/SKILL.md", ".cursor/skills/web-design-guidelines/SKILL.md");
+  }
   lines.push(".cursor/skills/ui-craft/SKILL.md", ".cursor/skills/full-output-enforcement/SKILL.md");
   return lines;
 }

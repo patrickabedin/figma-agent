@@ -20,7 +20,7 @@ export const IMAGE_SPECIALISTS: Record<ImageSpecialistId, ImageSpecialist> = {
     maker: "Midjourney",
     strength: "Artistic aesthetics, mood, and style consistency",
     use: "Mood frames, campaign atmosphere, illustrated or luxury looks. Style lock across a set.",
-    never: "Do not bake headlines, CTAs, or legal type into Midjourney. Set type in Figma or send type jobs to Ideogram.",
+    never: "Do not bake headlines, CTAs, or legal type into Midjourney. Set type in Next or Figma, or send type jobs to Ideogram.",
     call: "POST /api/image { specialist: \"midjourney\" } → OpenRouter black-forest-labs/flux.2-max. Midjourney itself is not on OpenRouter; use the designer Midjourney account when you need that exact look.",
     href: "https://www.midjourney.com/",
     openrouter: "black-forest-labs/flux.2-max",
@@ -148,7 +148,7 @@ export function recommendImagePlan(input: Pick<BriefInput, "deliverables" | "goa
   const blob = blobOf(input);
   const notes = [
     "These are image specialists. They are not the Cloud Agent chat model.",
-    "Set UI type in Figma unless the specialist is Ideogram.",
+    "Set website UI type in the Next app. Banner/social type-in-image goes to Ideogram.",
     "Capture live-site photography first. Generate only what is missing.",
     "POST /api/image { specialist, prompt } — Atelier calls OpenRouter. One studio key.",
   ];
@@ -193,7 +193,7 @@ export function recommendImagePlan(input: Pick<BriefInput, "deliverables" | "goa
 
   if (agentId === "banner-design" || agentId === "campaign" || wantsTypeInImage(blob, dels)) {
     const primary = wantsMood(blob) && !/type|headline|offer/.test(blob)
-      ? job("midjourney", "Campaign mood", "Atmosphere first; type goes on in Figma or Ideogram.")
+      ? job("midjourney", "Campaign mood", "Atmosphere first; type goes on in Next, Figma, or Ideogram.")
       : job("ideogram", "Type in the frame", "Headlines, offers, and CTAs that must read inside the image.");
     return {
       primary,

@@ -1,6 +1,6 @@
 ---
 name: design-qa
-description: Critique Figma work for brand drift, type, contrast, spacing, and handoff. Use before sending designs to a client or developer, or when something looks off.
+description: Critique a website preview or Figma work for brand drift, type, contrast, spacing, and handoff. Use before sending anything to a client, or when something looks off.
 ---
 
 # Design QA
@@ -11,17 +11,20 @@ You are a critic with a red pencil, not a second art director.
 
 ## Review
 
-Open the file. Check `QUALITY_GATES` in `lib/presets.ts` plus:
+**Website / landing:** open the Vercel preview (or local screenshots). Check `CODE_QUALITY_GATES` in `lib/stack.ts`.
+
+**Banners, social, wires, edits:** open the Figma file. Check `FIGMA_QUALITY_GATES` in `lib/presets.ts`.
+
+On every surface:
 
 - Contrast on text and CTAs (WCAG AA)
 - Type family matches the kit
 - No leftover “Title”, “Button”, or lorem
 - Desktop/mobile are real layouts
-- Components used for repeats
-- Banner safe zones
-- File / page / frame names a stranger can follow
+- Logos not stretched
 - TasteSkill: mesh / AI-purple, three-equal-card rows, em-dashes, Elevate/Unleash, Inter-by-default
+- Banner safe zones when ads are in scope
 
 ## Report
 
-Page `99 QA`: Blocker / Major / Nit, with node IDs. Fix blockers and majors if asked; do not restyle for taste unless the brief said so.
+Blocker / Major / Nit. For Figma, use page `99 QA` with node IDs. For code, write a short QA note next to the preview URL. Fix blockers and majors if asked; do not restyle for taste unless the brief said so.

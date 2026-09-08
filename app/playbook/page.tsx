@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { OPERATING_KIT } from "@/lib/constants";
 import { IMAGE_ROSTER } from "@/lib/models";
-import { BANNER_SIZES, QUALITY_GATES, WEB_BREAKPOINTS } from "@/lib/presets";
+import { BANNER_SIZES, FIGMA_QUALITY_GATES, WEB_BREAKPOINTS } from "@/lib/presets";
+import { CODE_QUALITY_GATES, CODE_STACK, WEBSITE_STOP_GATES } from "@/lib/stack";
 
 const steps = [
   {
@@ -9,16 +10,16 @@ const steps = [
     body: "A live URL is enough to start. A PDF style guide is better. An existing Figma file is required only when the job is an edit.",
   },
   {
-    title: "Pick the surface and the image specialist",
-    body: "Website, landing, banners, social, wires, or an in-file edit. Atelier writes the packet and names who Cursor should call through OpenRouter: Nano Banana 2 for photoreal, Ideogram/Recraft for type in the image, Midjourney/FLUX.2 max for mood, GPT Image 2 for edits.",
+    title: "Written read, then stop",
+    body: "Website jobs do not jump into pixels. TasteSkill writes a design read and, on a live site, an audit. You say preserve vs overhaul before anything is built.",
   },
   {
-    title: "TasteSkill before polish",
-    body: "Every surface loads anti-slop. No mesh blobs, no three-equal-card rows, no Inter-by-default, no Elevate/Unleash. Client brand beats TasteSkill color defaults.",
+    title: "Three comps, then one Next page",
+    body: "OpenRouter draws hero / proof / about. You pick. The agent implements one homepage on Next + Tailwind v4 + shadcn primitives and deploys a Vercel preview.",
   },
   {
-    title: "Review in Figma",
-    body: "Humans still art-direct. Reject anything that looks like a generic template. Request edits with the Figma Editor starter.",
+    title: "Figma after you accept",
+    body: "html.to.design imports the preview into a new client file so a designer can edit. Banners, social, and in-file edits still start in Figma.",
   },
 ];
 
@@ -27,12 +28,12 @@ export default function PlaybookPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">How the desk works</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl">
-        Any design job. TasteSkill on every surface. The right model for the pixels.
+        Sites in Next. Ads in Figma. TasteSkill on every surface.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
-        This is the operating model for the Hellenic design team. Atelier is the front door. Cursor Cloud
-        Agents do layout in Figma. Image specialists draw the pixels through OpenRouter. Figma is where work ships.
-        Humans still decide, brief the client, and reject anything that looks generic.
+        Atelier is the front door. Website packets implement one real page and stop for a human OK.
+        Vercel is how you share the preview. Figma is the later handoff, not the first paint. Ads and
+        edits still ship in Figma. Humans still decide.
       </p>
 
       <ol className="mt-10 grid gap-4 md:grid-cols-2">
@@ -44,6 +45,29 @@ export default function PlaybookPage() {
           </li>
         ))}
       </ol>
+
+      <section className="mt-14">
+        <h2 className="serif text-3xl">Website stop gates</h2>
+        <ul className="mt-4 grid gap-2">
+          {WEBSITE_STOP_GATES.map((gate) => (
+            <li key={gate} className="rounded-xl border border-line bg-paper-2 px-4 py-3 text-sm leading-6">
+              {gate}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="serif text-3xl">House website stack</h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {CODE_STACK.map((item) => (
+            <article key={item.id} className="hairline rounded-2xl bg-paper-2 p-5">
+              <h3 className="serif text-xl">{item.name}</h3>
+              <p className="mt-2 text-sm leading-6 text-ink-soft">{item.role}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="mt-14">
         <h2 className="serif text-3xl">Image specialists Cursor should call</h2>
@@ -100,9 +124,20 @@ export default function PlaybookPage() {
       </section>
 
       <section className="mt-14">
-        <h2 className="serif text-3xl">Nothing leaves the studio until</h2>
+        <h2 className="serif text-3xl">A website does not leave until</h2>
         <ul className="mt-4 grid gap-2 md:grid-cols-2">
-          {QUALITY_GATES.map((gate) => (
+          {CODE_QUALITY_GATES.map((gate) => (
+            <li key={gate} className="rounded-xl border border-line bg-paper-2 px-4 py-3 text-sm leading-6">
+              {gate}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="serif text-3xl">A Figma ad or edit does not leave until</h2>
+        <ul className="mt-4 grid gap-2 md:grid-cols-2">
+          {FIGMA_QUALITY_GATES.map((gate) => (
             <li key={gate} className="rounded-xl border border-line bg-paper-2 px-4 py-3 text-sm leading-6">
               {gate}
             </li>
@@ -114,8 +149,12 @@ export default function PlaybookPage() {
         <h2 className="serif text-3xl">What I recommend next</h2>
         <ul className="mt-4 space-y-3 text-sm leading-6 text-ink-soft">
           <li>
-            Keep one Operating Kit file and spawn a new client file per job — never dump clients into the
-            kit. The kit is already in your drafts:{" "}
+            Run Hellenic Technologies through a new Website brief. The packet will stop after the written
+            audit — that is the first HT job, not another Figma dump.
+          </li>
+          <li>
+            Keep one Operating Kit file and spawn a new client file per accepted site — never dump clients
+            into the kit.{" "}
             <a className="text-ink underline decoration-line underline-offset-4" href={OPERATING_KIT.url}>
               {OPERATING_KIT.name}
             </a>
@@ -124,14 +163,6 @@ export default function PlaybookPage() {
           <li>
             Save the Website, Banner, and Figma Editor starters (`/starters`). Designers then only paste the
             client URL or file and the Atelier brand kit.
-          </li>
-          <li>
-            For retainers, run Design System after the first approved site so the second campaign is
-            instance-swaps, not redraws.
-          </li>
-          <li>
-            If a first photoreal pass still looks fake, switch specialist: Nano Banana 2 for light,
-            FLUX.2 for control, Midjourney (or FLUX.2 max via OpenRouter) for mood.
           </li>
           <li>
             Humans still art-direct. The agents are fast hands with a house style, not the creative

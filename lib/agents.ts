@@ -14,10 +14,10 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: "website-job",
     name: "Website Agent",
-    role: "Runs a full website job in one Cloud Agent: brand kit, wireframes, hi-fi desktop and mobile, then QA.",
-    whenToUse: "Any new marketing site or landing. This is the default starter. Do not split the job unless you only need one slice.",
+    role: "TasteSkill code-first: design read, live-site audit, three section comps, one Next homepage, Vercel preview. Figma via html.to.design only after accept.",
+    whenToUse: "Any new marketing site or landing. Default starter. Honor the stop gates — do not paint a full site in Figma.",
     inputs: ["Client URL and/or style guide", "Goals", "Language / market"],
-    outputs: ["New Figma file", "Brand page", "Wireframes", "Hi-fi Home + inner pages", "QA notes"],
+    outputs: ["Design read + audit", "Section comps", "Next homepage", "Vercel preview", "Optional Figma import"],
     skillPath: ".cursor/skills/website-job/SKILL.md",
   },
   {
@@ -50,10 +50,10 @@ export const AGENTS: AgentDefinition[] = [
   {
     id: "web-design",
     name: "Website Designer",
-    role: "Builds high-fidelity marketing and product web pages in Figma.",
-    whenToUse: "After the brand kit (and usually after wireframes). Homepage plus inner templates.",
-    inputs: ["Brand kit", "Approved IA or wireframes", "Reference URL"],
-    outputs: ["Hi-fi desktop + mobile", "Components", "Hover / state notes"],
+    role: "Implements accepted comps as one Next.js page on the house stack.",
+    whenToUse: "After the designer picked comps (or after wireframes-only). Not a Figma paint pass.",
+    inputs: ["Brand kit", "Accepted comps or IA", "Reference URL"],
+    outputs: ["Next homepage", "Desktop + mobile screenshots", "Vercel preview"],
     skillPath: ".cursor/skills/web-design/SKILL.md",
   },
   {
@@ -79,8 +79,8 @@ export const AGENTS: AgentDefinition[] = [
     name: "Design QA",
     role: "Critiques contrast, type, spacing, brand drift, and handoff readiness.",
     whenToUse: "Before sending anything to a client or developer.",
-    inputs: ["Figma URL", "Brand kit", "Brief"],
-    outputs: ["Issue list with severity", "In-file annotations", "Fix pass if asked"],
+    inputs: ["Preview URL or Figma URL", "Brand kit", "Brief"],
+    outputs: ["Issue list with severity", "Preview or in-file notes", "Fix pass if asked"],
     skillPath: ".cursor/skills/design-qa/SKILL.md",
   },
   {

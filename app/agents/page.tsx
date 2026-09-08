@@ -7,12 +7,12 @@ export default function AgentsPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Specialists</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl">
-        One specialist per surface. Each one names its model.
+        One specialist per surface. Sites code first.
       </h1>
       <p className="mt-4 max-w-2xl text-base text-ink-soft">
-        The Website Agent is the default for a new site. Use Banner, Campaign, Wireframe, or Figma Editor
-        when that is the job. Every specialist loads TasteSkill and names the image model Cursor should
-        call through OpenRouter.
+        The Website Agent is the default for a new site — Next + TasteSkill, then html.to.design.
+        Use Banner, Campaign, Wireframe, or Figma Editor when that is the job. Every specialist names
+        the OpenRouter image model.
       </p>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">

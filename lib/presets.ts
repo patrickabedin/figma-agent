@@ -28,7 +28,7 @@ export const DEFAULT_WEBSITE_PAGES = [
   "Contact",
 ] as const;
 
-export const QUALITY_GATES = [
+export const FIGMA_QUALITY_GATES = [
   "Brand colors, type, and logo treatment match the kit — no default Inter unless it is the brand font",
   "Type scale is systematic (display / h1–h3 / body / caption) with real line-height",
   "Spacing uses an 8px (or brand) grid; no random 13/17/23px gaps",
@@ -37,6 +37,7 @@ export const QUALITY_GATES = [
   "Real client language is used — no lorem, no leftover “Title / Button”",
   "Repeated UI is componentized before handoff",
   "Auto-layout is used for every structural group",
+  "Logos are SVG or intrinsic-ratio — never scale-fill marks",
   "Imagery is cropped with intent; no empty gray photo slots in final comps",
   "A QA page lists open questions and deviations from the brief",
   "TasteSkill: no mesh / AI-purple / neon glow unless the brand is purple (LILA)",
@@ -45,3 +46,6 @@ export const QUALITY_GATES = [
   "TasteSkill: no Elevate / Unleash / Seamless, fake product UI, or Inter-by-default",
   "Banners and social: one campaign idea, safe zones, type still legal at 320×100",
 ] as const;
+
+/** Banner, social, wire, and edit jobs. Website / landing jobs use CODE_QUALITY_GATES in lib/stack.ts. */
+export const QUALITY_GATES = FIGMA_QUALITY_GATES;

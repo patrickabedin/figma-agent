@@ -5,7 +5,7 @@ description: Route imagery to specialized image models — Midjourney, GPT Image
 
 # Image specialists
 
-The Cloud Agent chat model does layout in Figma. It does **not** invent photography. When pixels are missing, call one of these specialists. Roster lives in `lib/models.ts`. If Atelier already printed an image plan, follow it.
+The Cloud Agent chat model does layout — in **Next.js** for website / landing jobs, in **Figma** for banners, social, wires, and edits. It does **not** invent photography. When pixels are missing, call one of these specialists. Roster lives in `lib/models.ts`. If Atelier already printed an image plan, follow it.
 
 ## Who to call
 
@@ -21,7 +21,7 @@ The Cloud Agent chat model does layout in Figma. It does **not** invent photogra
 
 ## Hard splits
 
-- Website UI type stays in Figma. Do not Midjourney a nav label.
+- Website UI type stays in the Next app. Banner/social type-in-image goes to Ideogram. Do not Midjourney a nav label.
 - Banner/social **words in the picture** → Ideogram. Photo plate behind them → Nano Banana 2 or FLUX.2.
 - Existing client photograph → GPT Image 2 or Firefly 5. Do not regenerate the whole plate unless it cannot be saved.
 - Mood frames are Midjourney. They are references, not final UI.
@@ -32,13 +32,13 @@ The Cloud Agent chat model does layout in Figma. It does **not** invent photogra
 2. Write a specialist-specific prompt (camera/light for Nano Banana and FLUX; style/mood only for Midjourney; exact string for Ideogram; keep/change list for GPT Image 2 / Firefly).
 3. `POST /api/image` with `{ "specialist": "<id>", "prompt": "...", "aspectRatio": "16:9", "sourceImageUrl": "..." }`. Atelier calls OpenRouter (`OPENROUTER_API_KEY`).
 4. If a specialist is not on OpenRouter, the API uses the stand-in in `lib/models.ts` (FLUX.2 max for Midjourney, Recraft for Ideogram, GPT Image 2 for Firefly). Say so on the QA page.
-5. Upload the returned `b64_json` into the client Figma file. Empty gray photo slots are a defect.
+5. Put the returned `b64_json` into the Next page (website jobs) or the client Figma file (ads / edits). Empty gray photo slots are a defect.
 
 ## Prompt notes
 
 - Pass brand hex, typeface name, market, and real language. No “Elevate your brand”.
 - One idea per generate. Do not ask Midjourney for a 728×90 plus a story plus a desktop hero in one go.
-- Ideogram: give the exact headline. If it cannot set it, set type in Figma on a generated plate.
+- Ideogram: give the exact headline. If it cannot set it, set type in the Next app or Figma on a generated plate.
 - GPT Image 2 / Firefly: attach the source image. List what must not change.
 
 ## Do not
