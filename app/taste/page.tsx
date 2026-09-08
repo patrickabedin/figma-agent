@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IMAGE_ROSTER } from "@/lib/models";
+import { CODE_STACK } from "@/lib/stack";
 import { ANTI_SLOP_BANS, TASTE_STACK } from "@/lib/taste";
 
 export default function TastePage() {
@@ -10,9 +11,9 @@ export default function TastePage() {
         Anti-slop for every surface. Image models that actually draw.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
-        The Cloud Agent does layout in Figma. Photography and type-in-image go to specialists. Cursor
-        calls them through OpenRouter via <code>POST /api/image</code> — one studio key, the right model
-        per job.
+        Website layout happens in Next.js. Photography and type-in-image go to specialists through{" "}
+        <code>POST /api/image</code>. Banners, social, and edits still layout in Figma. One studio key,
+        the right model per job.
       </p>
 
       <section className="mt-12">
@@ -38,6 +39,21 @@ export default function TastePage() {
               {model.openrouterNote ? (
                 <p className="mt-2 text-xs leading-5 text-ink-soft">{model.openrouterNote}</p>
               ) : null}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="serif text-3xl">Website stack</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-soft">
+          House combo for Website and Landing jobs. Banners and edits skip this and stay in Figma.
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {CODE_STACK.map((item) => (
+            <article key={item.id} className="hairline rounded-2xl bg-paper-2 p-5">
+              <h3 className="serif text-2xl">{item.name}</h3>
+              <p className="mt-2 text-sm leading-6 text-ink-soft">{item.role}</p>
             </article>
           ))}
         </div>

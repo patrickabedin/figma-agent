@@ -14,14 +14,15 @@ This repository is the operating system for the design team.
 
 - **Atelier** (`/`) is the designer intake UI. It extracts a brand kit from a URL and writes specialist packets.
 - **Skills** in `.cursor/skills/` are the dedicated agents. Follow the named skill. Do not improvise a parallel process.
-- **Figma** is the deliverable surface. Confirm access with `whoami`. Create client files in the Hellenic Technologies team (`team::835515410208041552`).
+- **Website / landing** output is Next.js on the house stack, then a Vercel preview. Figma is a later html.to.design handoff.
+- **Banners, social, wires, edits** still deliver in Figma. Confirm access with `whoami`. Create client files in the Hellenic Technologies team (`team::835515410208041552`).
 - **Operating Kit** (structure only, never the client skin): https://www.figma.com/design/2k2H00PKTb87JeKvlpHDIv
 
 ## Routing
 
 | Designer says | Agent |
 | --- | --- |
-| New website or landing (default) | `website-job` — brand + wire + hi-fi + QA in one chat |
+| New website or landing (default) | `website-job` — audit + comps + one Next page + preview. Stop gates. |
 | Wireframes only | `wireframe` |
 | Banners / display / Meta / LinkedIn | `banner-design` after the site, or alone |
 | Social / launch extras | `campaign` |
@@ -29,7 +30,7 @@ This repository is the operating system for the design team.
 | Critique / before client send | `design-qa` (already inside website-job) |
 | Components from approved screens | `design-system` |
 
-Any design surface. Saved starters live in `starters/`. Default sequence for a new site is the Website Agent. Banners, social, and edits are first-class jobs with the same TasteSkill stack.
+Any design surface. Saved starters live in `starters/`. Default sequence for a new site is the Website Agent (code-first). Banners, social, and edits are first-class Figma jobs with the same TasteSkill bans.
 
 ## Taste + image specialists
 
@@ -56,5 +57,6 @@ Studio packets print the plan. Requires `OPENROUTER_API_KEY` in Vercel / `.env.l
 - Never dump a new client into the Operating Kit. Create a new file.
 - Never rebuild a file the designer asked you to edit.
 - Never ship mesh blobs, three-equal-card rows, em-dashes, or Elevate/Unleash on any surface.
-- Load Figma skills before write tools: `figma-create-new-file`, `figma-use`, and `figma-generate-design` or `figma-generate-library` as required.
+- Website jobs: do not call `generate_figma_design` as the first output. Import with html.to.design only after the preview is accepted.
+- Banner / edit jobs: load Figma skills before write tools (`figma-create-new-file`, `figma-use`, `figma-generate-design` or `figma-generate-library`).
 - If the user has multiple Figma plans, use Hellenic Technologies (`team::835515410208041552`) unless they name the other team.

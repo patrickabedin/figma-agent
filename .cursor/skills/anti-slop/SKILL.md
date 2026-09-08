@@ -16,11 +16,11 @@ Load before drawing:
 5. `.cursor/skills/full-output-enforcement/SKILL.md`
 6. `.cursor/skills/web-design-guidelines/SKILL.md` at QA (sites and landings)
 
-Then this file, which maps those rules onto Figma and ads.
+Then this file, which maps those rules onto Next pages, Figma ads, and edits.
 
 ## Design read (mandatory)
 
-Before any hi-fi frame or banner master, write one line:
+Before any Next page, hi-fi frame, or banner master, write one line:
 
 `Reading this as: <surface> for <audience>, with a <vibe> language, leaning toward <type + system>.`
 
@@ -75,4 +75,4 @@ Follow `.cursor/rules/design-models.mdc` and `.cursor/skills/image-models/SKILL.
 - [ ] No mesh / AI-purple / Inter-by-default
 - [ ] Real client language
 - [ ] Banners: one idea, safe zones, readable type
-- [ ] QA page lists remaining TasteSkill nits
+- [ ] Website jobs: written pre-flight on the preview. Ads: QA page lists remaining nits

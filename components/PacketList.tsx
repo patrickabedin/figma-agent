@@ -25,11 +25,12 @@ export function PacketList({ brief }: { brief: StudioBrief }) {
               : "Run these in order"}
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-ink-soft">
-            Paste the first prompt into a Cloud Agent on this repo. For pixels, Cursor calls{" "}
+            Paste the first prompt into a Cloud Agent on this repo. Website packets implement one Next
+            page and stop for your OK. For pixels, Cursor calls{" "}
             <span className="text-ink">{brief.recommendedModelLabel}</span>{" "}
             (<code className="font-mono text-[11px]">{brief.recommendedModel}</code>) through{" "}
-            <code className="font-mono text-[11px]">POST /api/image</code> on OpenRouter. TasteSkill is
-            already in the packet.
+            <code className="font-mono text-[11px]">POST /api/image</code>. Figma import is after you
+            accept the preview.
           </p>
           <p className="mt-3 max-w-2xl text-sm italic text-ink">{brief.designRead}</p>
         </div>

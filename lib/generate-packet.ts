@@ -2,6 +2,7 @@ import { AGENTS, DELIVERABLE_LABELS, agentsForDeliverables } from "./agents";
 import { FIGMA_TEAM_NAME, FIGMA_TEAM_PLAN_KEY, OPERATING_KIT } from "./constants";
 import { formatImagePlan, recommendImagePlan } from "./models";
 import { BANNER_SIZES, DEFAULT_WEBSITE_PAGES, QUALITY_GATES, WEB_BREAKPOINTS } from "./presets";
+import { CODE_QUALITY_GATES, CODE_STACK, FIGMA_HANDOFF_STEPS, WEBSITE_STOP_GATES } from "./stack";
 import { inferDesignRead, tasteLoadLines } from "./taste";
 import type { AgentPacket, BrandKit, BriefInput, StudioBrief } from "./types";
 
@@ -46,13 +47,21 @@ function finishPacket(
   const designRead = inferDesignRead(input, brandKit);
   const imagePlan = recommendImagePlan(input, agentId);
   const redesign =
-    Boolean(input.existingFigmaUrl) || /redesign|refresh|existing/i.test(`${input.goals} ${input.websiteUrl}`);
+    Boolean(input.websiteUrl) ||
+    Boolean(input.existingFigmaUrl) ||
+    /redesign|refresh|existing/i.test(`${input.goals} ${input.websiteUrl}`);
+  const codeFirst = agentId === "website-job" || agentId === "web-design";
   const taste = [
-    "TASTE + IMAGE SPECIALISTS (sites, banners, social, wire, pitch, edits)",
+    codeFirst
+      ? "TASTE + CODE-FIRST WEBSITE STACK (Figma is a later handoff)"
+      : "TASTE + IMAGE SPECIALISTS (banners, social, wire, pitch, edits)",
     `- Design read: ${designRead}`,
-    `- Load skills: ${tasteLoadLines({ redesign }).join(" → ")}`,
+    `- Load skills: ${tasteLoadLines({ redesign, codeFirst }).join(" → ")}`,
     formatImagePlan(imagePlan),
     "- Client brand beats TasteSkill defaults (keep purple only if the brand is already purple)",
+    codeFirst
+      ? "- Do not call generate_figma_design or paint a full site in Figma in this run"
+      : "- Figma is the deliverable surface for this job",
     "",
   ].join("\n");
 
@@ -77,54 +86,32 @@ function packetBody(
   switch (agentId) {
     case "website-job":
       return {
-        title: "Website Agent — full job",
-        summary: "One Cloud Agent. Brand kit, wireframes, hi-fi. Call Nano Banana 2 / Midjourney for imagery — not gray slots.",
+        title: "Website Agent — TasteSkill code-first",
+        summary: "One Next homepage. Section comps first. Vercel preview. Figma only after the designer accepts.",
         body: `${context}
 
-You are the Hellenic Technologies Website Agent. Run the full website job in this single conversation. Do not stop after the brand page.
+You are the Hellenic Technologies Website Agent. Code is the first output. Do not call generate_figma_design or paint a full site in Figma in this run.
 
-Follow, in order:
-1. .cursor/skills/anti-slop/SKILL.md
-2. .cursor/skills/website-job/SKILL.md
-3. .cursor/skills/brand-kit/SKILL.md
-4. .cursor/skills/wireframe/SKILL.md
-5. .cursor/skills/web-design/SKILL.md
-6. .cursor/skills/design-qa/SKILL.md
+Follow .cursor/skills/website-job/SKILL.md. Stack — do not substitute:
+${CODE_STACK.map((item) => `- ${item.name}: ${item.role}`).join("\n")}
 
-Also load Figma skills before writing: figma-create-new-file, figma-use, figma-generate-design.
+Sitemap to keep in mind (implement Home only unless the designer already accepted Home):
+${DEFAULT_WEBSITE_PAGES.map((page) => `- ${page}`).join("\n")}
 
-Create a new Figma design file in the ${FIGMA_TEAM_NAME} team (planKey ${FIGMA_TEAM_PLAN_KEY}) named:
-“${input.clientName || brandKit.name} — Website”.
+Stop gates — honor each one. Do not skip to the next phase without a human OK:
+${WEBSITE_STOP_GATES.map((gate) => `- ${gate}`).join("\n")}
+
+PHASE D quality gates:
+${CODE_QUALITY_GATES.map((gate) => `- ${gate}`).join("\n")}
+
+Figma handoff (PHASE F only):
+${FIGMA_HANDOFF_STEPS.map((step) => `- ${step}`).join("\n")}
 
 Do not put work in the Operating Kit (${OPERATING_KIT.url}).
+Do not use Magic UI / Aceternity as the visual system.
+Do not invent a new palette when the kit already has one (Hellenic gold/cyan/Source Sans 3 stays if that is the kit).
 
-PHASE A — Brand
-- Variables for primary, secondary, accent, background, surface, text, muted, border
-- Text styles using the client typeface. Never default to Inter unless it is in the kit
-- Logo row from extracted / attached assets
-- Voice and open questions
-
-PHASE B — Wireframes
-- Sitemap from extracted nav, adapted to: ${DEFAULT_WEBSITE_PAGES.join(", ")}
-- Desktop ${WEB_BREAKPOINTS[2].width} and mobile ${WEB_BREAKPOINTS[0].width} for Home + at least three inner pages
-- Grayscale only. Real language (${input.language || "source language"}). Mark missing copy with [need: …]
-- Do not lock a three-equal-card row into the IA
-
-PHASE C — Hi-fi
-- Paint on that IA. Homepage + at least three inner templates (or one landing if that is the only deliverable)
-- Sibling desktop / mobile frames
-- Componentize header, footer, button, card, input
-- Capture imagery from the live site. Empty gray photo slots are a defect
-- Bind tokens. No leftover “Title / Button”
-- Scan TasteSkill Section 9 before claiming done
-
-PHASE D — QA
-- Check every quality gate:
-${QUALITY_GATES.map((gate) => `  - ${gate}`).join("\n")}
-- Fix blockers and majors in place
-- Leave a short change / open-question note on a QA page
-
-Return the Figma file URL when done.`,
+Return the Vercel preview URL (or local screenshots) when PHASE D/E is done. Return a Figma URL only after PHASE F.`,
       };
     case "intake":
       return {
@@ -141,8 +128,9 @@ Do this:
 2. Name the surface (website, landing, banners, social, pitch, wireframes, edit) and the recommended model.
 3. Flag missing inputs (logo files, claims that need legal, languages, competitors).
 4. Do not design screens yet.
-5. Hand off to Brand Kit next, then the specialists listed in this Studio brief.
-6. If an existing Figma URL is present, schedule Figma Editor after Brand Kit — do not duplicate the file.`,
+5. Website / landing: hand off to the Website Agent (code-first TasteSkill). Do not start a Figma dump.
+6. Banners, social, wires-only, or an existing Figma URL: Brand Kit in Figma, then the matching specialist.
+7. If an existing Figma URL is present and the job is an edit, schedule Figma Editor — do not duplicate the file.`,
       };
     case "brand-kit":
       return {
@@ -191,27 +179,29 @@ Stop after wireframes unless the designer also asked for hi-fi in the same run.`
     case "web-design":
       return {
         title: "4. Website Designer",
-        summary: "High-fidelity marketing pages that look like this client, not a template.",
+        summary: "Implement the accepted comps as one Next page. Figma only after the preview is accepted.",
         body: `${context}
 
-You are the Website Designer agent.
+You are the Website Designer agent — code-first.
 
-Follow .cursor/skills/anti-slop/SKILL.md, .cursor/skills/web-design/SKILL.md, and Figma skills figma-use + figma-generate-design.
+Follow .cursor/skills/web-design/SKILL.md. This is the PHASE D implementer after the designer picked comps. Do not call generate_figma_design.
 
-Produce hi-fi frames in the same client file:
-- Homepage + at least three inner templates (or a single landing if that is the only deliverable)
-- Desktop ${WEB_BREAKPOINTS[2].width} and mobile ${WEB_BREAKPOINTS[0].width} as sibling frames
-- Bind fills and type to the Brand Kit variables — no hardcoded hex if a token exists
-- Use the client’s actual typeface. Never default to Inter unless it is in the kit
-- Componentize header, footer, buttons, cards, form fields
-- Photography: capture from the live site when possible; do not leave empty gray slots
+Stack:
+${CODE_STACK.map((item) => `- ${item.name}: ${item.role}`).join("\n")}
+
+Build:
+- One homepage or one landing in Next.js + Tailwind v4
+- Desktop ${WEB_BREAKPOINTS[2].width} and mobile ${WEB_BREAKPOINTS[0].width} as sibling screenshots
+- CSS variables from the brand kit. Client typeface via next/font. Never Inter-by-default
+- shadcn primitives only, restyled to the kit
+- Photography from the live site or POST /api/image. Empty gray slots are a defect
 - Write in the client’s language (${input.language || "source language"})
-- Scan TasteSkill Section 9. No mesh blobs, no three-equal-card row, no em-dashes
+- Written TasteSkill pre-flight. Any Fail blocks done
 
 Quality gates:
-${QUALITY_GATES.map((gate) => `- ${gate}`).join("\n")}
+${CODE_QUALITY_GATES.map((gate) => `- ${gate}`).join("\n")}
 
-Take screenshots after each major section and fix clipping, overlap, and leftover placeholder copy before handing to Design QA.`,
+Return the Vercel preview URL. Figma handoff is PHASE F only, via html.to.design, into a new client file — not the Operating Kit (${OPERATING_KIT.url}).`,
       };
     case "banner-design":
       return {
@@ -268,9 +258,14 @@ You are the Design QA agent.
 
 Follow .cursor/skills/anti-slop/SKILL.md and .cursor/skills/design-qa/SKILL.md.
 
-Review the client Figma file against the brief and brand kit.
-File a QA page with severity: Blocker / Major / Nit.
-Check every quality gate:
+If this is a website / landing job, review the Vercel preview (or screenshots) against CODE_QUALITY_GATES in lib/stack.ts.
+If this is banners, social, wires, or an edit, review the Figma file against FIGMA_QUALITY_GATES.
+Severity: Blocker / Major / Nit.
+
+Code gates:
+${CODE_QUALITY_GATES.map((gate) => `- ${gate}`).join("\n")}
+
+Figma gates:
 ${QUALITY_GATES.map((gate) => `- ${gate}`).join("\n")}
 
 If asked to fix, patch blockers and majors in place. Do not restyle the whole job.`,

@@ -7,11 +7,11 @@ export default function StartersPage() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Saved Cloud Agents</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl">
-        Saved Cloud Agents for sites, banners, social, and edits.
+        Saved Cloud Agents for Next sites, Figma ads, and edits.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
-        Paste a starter into a Cloud Agent on this repo. The prompt names the image specialist to call
-        through OpenRouter. Designers then only add the client URL, file, or brand kit.
+        Paste a starter into a Cloud Agent on this repo. The Website starter is code-first. Banner and
+        edit starters still write Figma. Designers then only add the client URL, file, or brand kit.
       </p>
 
       <div className="mt-10 space-y-6">

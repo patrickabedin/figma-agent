@@ -1,30 +1,43 @@
 ---
 name: web-design
-description: Create high-fidelity website and landing-page designs in Figma from a brand kit and wireframes. Use for homepages, inner templates, marketing sites, and desktop plus mobile web UI.
+description: Implement an accepted website or landing as one Next.js page on the house TasteSkill stack. Use after the designer picked section comps. Figma import is a later handoff, not the first output.
 ---
 
-# Website Designer
+# Website Designer — code-first
 
-Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Call Nano Banana 2 for photoreal plates.
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first, then TasteSkill (`design-taste-frontend`), `image-to-code`, and `web-design-guidelines`.
 
-When the designer asked for a full site, prefer `.cursor/skills/website-job/SKILL.md` and run brand + wireframes first. This skill is the hi-fi phase.
+When the designer asked for a full site, prefer `.cursor/skills/website-job/SKILL.md` and honor its stop gates. This skill is **PHASE D** — implement the accepted comps.
 
-Load Figma skills `figma-use` and `figma-generate-design` before writing to the file.
+Do **not** call `generate_figma_design`. Do not paint the site in Figma first.
+
+## Stack
+
+- Next.js App Router + Tailwind v4
+- `next/font` + client typeface
+- shadcn primitives only, restyled to the kit
+- Phosphor / HugeIcons / Radix / Tabler icons
+- OpenRouter photography via `POST /api/image`
+- Vercel preview when a human needs a clickable URL
 
 ## Build
 
-1. Work in the client file. Pages `02 Website / Desktop` and `03 Website / Mobile` (or one page with two columns).
-2. If wireframes exist, paint on that IA. Do not secretly change the sitemap.
-3. Bind color and spacing to Brand Kit variables. Apply text styles.
-4. Componentize header, footer, button, card, input, quote. Create local components when the library has none.
-5. Capture imagery from the live site when the brief includes a URL (`generate_figma_design` or image hashes already in-file). Empty gray photo slots are a defect in hi-fi.
-6. Desktop 1440 and mobile 390 as siblings for Home + at least three inner templates, unless the job is a single landing.
-7. After each major section: screenshot, fix clip/overlap/placeholder text.
+1. One homepage or one landing. Not eight routes.
+2. If comps or wireframes exist, implement that IA. Do not secretly change the sitemap.
+3. Bind color and type to CSS variables from the brand kit.
+4. Componentize header, footer, button, card, input — restyle shadcn, do not leave zinc defaults.
+5. Capture imagery from the live site or generate through OpenRouter. Empty gray photo slots are a defect.
+6. Screenshot desktop 1440 and mobile 390 after each major section. Fix clip, overlap, leftover placeholder copy.
+7. Written TasteSkill pre-flight. Any Fail blocks done.
 
 ## Taste
 
 Look like this client. If the source is a Greek industrial brand, do not deliver a San Francisco fintech landing. If the source is editorial, keep type-driven composition.
 
+## Figma
+
+Only after a human accepts the preview. html.to.design into a new client file. Logos as SVG. Not the Operating Kit.
+
 ## Done when
 
-Quality gates in `lib/presets.ts` pass and Design QA can run without rebuilding layout.
+`CODE_QUALITY_GATES` in `lib/stack.ts` pass and a preview URL (or screenshots) exists.

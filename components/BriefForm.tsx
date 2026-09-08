@@ -71,7 +71,7 @@ export function BriefForm() {
     (form.elements.namedItem("market") as HTMLInputElement).value = "Greece / EMEA";
     (form.elements.namedItem("language") as HTMLInputElement).value = "Greek + English";
     (form.elements.namedItem("goals") as HTMLTextAreaElement).value =
-      "Redesign the marketing site. Homepage first, then About, Work, and Contact. Keep the current logo.";
+      "Redesign hellenictechnologies.com. Homepage first. Keep Source Sans 3, gold, and cyan. Do not invent a new palette.";
     setDeliverables(["website"]);
   }
 
@@ -83,8 +83,8 @@ export function BriefForm() {
             <p className="text-[11px] uppercase tracking-[0.2em] text-ink-soft">New design job</p>
             <h2 className="serif mt-2 text-3xl sm:text-4xl">URL or style guide in. Taste-checked packets out.</h2>
             <p className="mt-2 max-w-xl text-sm text-ink-soft">
-              Default is a full website. Switch the job to banners, social, wires, or an existing Figma file.
-              Every packet names the image specialist Cursor should call through OpenRouter.
+              Default is a website: Next + Tailwind v4 + TasteSkill, not a Figma dump. Switch the job to
+              banners, social, wires, or an existing Figma file. Every packet names the OpenRouter image specialist.
             </p>
           </div>
           <button

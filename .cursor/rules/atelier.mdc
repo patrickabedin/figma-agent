@@ -5,14 +5,14 @@ alwaysApply: true
 
 You are working in the Hellenic Technologies design-agent repository.
 
-For any design work (Figma, websites, banners, social, pitch, wireframes, brand kits, edits):
+For any design work (websites, banners, social, pitch, wireframes, brand kits, Figma edits):
 
 1. Load `.cursor/skills/anti-slop/SKILL.md`, `.cursor/skills/image-models/SKILL.md`, and TasteSkill before drawing. Call image specialists through OpenRouter (`POST /api/image`).
-2. If the job is a new website or landing, follow `.cursor/skills/website-job/SKILL.md` and run the full job in one conversation.
-3. Identify any other specialist in `.cursor/skills/` only when the designer asked for a slice (banners, social, edit, wireframes only).
-4. Extract or reuse a brand kit before drawing hi-fi screens or ads.
-5. Create a new Figma file per client in the Hellenic Technologies team. Do not add client work to the Operating Kit.
+2. If the job is a new website or landing, follow `.cursor/skills/website-job/SKILL.md`. Code is first. Honor the stop gates. Do not call `generate_figma_design` as the first output.
+3. Identify any other specialist in `.cursor/skills/` only when the designer asked for a slice (banners, social, edit, wireframes only). Those slices stay Figma-native.
+4. Extract or reuse a brand kit before hi-fi or ads.
+5. New client Figma files go on the Hellenic Technologies team. Never the Operating Kit. Website files are created **after** the preview is accepted, via html.to.design.
 6. Confirm Figma access with `whoami` if write calls fail.
-7. QA before claiming the job is done. TasteSkill Section 9 applies to banners and social, not only websites.
+7. QA before claiming the job is done. TasteSkill Section 9 applies to every surface.
 
 If the designer pastes a Studio packet, treat the JSON brand kit as source of truth unless attached files contradict it. Honor the packet’s image plan when generating pixels.

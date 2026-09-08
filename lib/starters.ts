@@ -11,7 +11,7 @@ export const STARTERS: Starter[] = [
     id: "website",
     title: "Website Agent",
     status: "live",
-    blurb: "Default site job. Brand kit, wires, hi-fi, QA. Nano Banana 2 for photography via OpenRouter.",
+    blurb: "Default site job. TasteSkill code-first: audit, comps, one Next homepage, Vercel preview. Figma after accept.",
     href: "/starters#website",
   },
   {
