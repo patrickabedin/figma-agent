@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { OPERATING_KIT } from "@/lib/constants";
-import { MODEL_TABLE } from "@/lib/models";
+import { IMAGE_ROSTER } from "@/lib/models";
 import { BANNER_SIZES, QUALITY_GATES, WEB_BREAKPOINTS } from "@/lib/presets";
 
 const steps = [
@@ -9,8 +9,8 @@ const steps = [
     body: "A live URL is enough to start. A PDF style guide is better. An existing Figma file is required only when the job is an edit.",
   },
   {
-    title: "Pick the surface and the model",
-    body: "Website, landing, banners, social, wires, or an in-file edit. Atelier writes the packet and names the Cursor slug. Hi-fi and ads launch on Claude Opus thinking. Wires and mechanical edits can stay on Sonnet thinking.",
+    title: "Pick the surface and the image specialist",
+    body: "Website, landing, banners, social, wires, or an in-file edit. Atelier writes the packet and names who Cursor should call through OpenRouter: Nano Banana 2 for photoreal, Ideogram/Recraft for type in the image, Midjourney/FLUX.2 max for mood, GPT Image 2 for edits.",
   },
   {
     title: "TasteSkill before polish",
@@ -31,7 +31,7 @@ export default function PlaybookPage() {
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
         This is the operating model for the Hellenic design team. Atelier is the front door. Cursor Cloud
-        Agents are the specialists — launched on models that can actually draw. Figma is where work ships.
+        Agents do layout in Figma. Image specialists draw the pixels through OpenRouter. Figma is where work ships.
         Humans still decide, brief the client, and reject anything that looks generic.
       </p>
 
@@ -46,15 +46,15 @@ export default function PlaybookPage() {
       </ol>
 
       <section className="mt-14">
-        <h2 className="serif text-3xl">Models Cursor should call</h2>
+        <h2 className="serif text-3xl">Image specialists Cursor should call</h2>
         <ul className="mt-4 space-y-2 text-sm">
-          {MODEL_TABLE.map((model) => (
+          {IMAGE_ROSTER.map((model) => (
             <li key={model.id} className="flex flex-col gap-1 border-b border-line py-3 sm:flex-row sm:justify-between">
               <span>
                 {model.label}
-                <span className="block text-xs text-ink-soft">{model.use}</span>
+                <span className="block text-xs text-ink-soft">{model.strength}</span>
               </span>
-              <span className="shrink-0 font-mono text-xs text-ink-soft">{model.slug}</span>
+              <span className="shrink-0 font-mono text-xs text-ink-soft">{model.openrouter}</span>
             </li>
           ))}
         </ul>
@@ -130,8 +130,8 @@ export default function PlaybookPage() {
             instance-swaps, not redraws.
           </li>
           <li>
-            If a first hi-fi or banner pass still looks like a template, re-run on{" "}
-            <code>claude-opus-5-thinking-xhigh</code>. TasteSkill cannot save a small/fast model.
+            If a first photoreal pass still looks fake, switch specialist: Nano Banana 2 for light,
+            FLUX.2 for control, Midjourney (or FLUX.2 max via OpenRouter) for mood.
           </li>
           <li>
             Humans still art-direct. The agents are fast hands with a house style, not the creative

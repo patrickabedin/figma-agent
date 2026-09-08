@@ -5,7 +5,7 @@ description: Create high-fidelity website and landing-page designs in Figma from
 
 # Website Designer
 
-Load `.cursor/skills/anti-slop/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Launch on `claude-opus-5-thinking-high`.
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Call Nano Banana 2 for photoreal plates.
 
 When the designer asked for a full site, prefer `.cursor/skills/website-job/SKILL.md` and run brand + wireframes first. This skill is the hi-fi phase.
 

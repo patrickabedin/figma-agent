@@ -64,12 +64,12 @@ If the guide is already purple, keep purple (LILA override). TasteSkill stops te
 
 ## Models
 
-Follow `.cursor/rules/design-models.mdc`. Hi-fi and banners on Claude Opus thinking high (or GPT-5.6 xhigh + gpt-taste). Not on a fast/small model.
+Follow `.cursor/rules/design-models.mdc` and `.cursor/skills/image-models/SKILL.md`. Call Nano Banana 2, GPT Image 2, FLUX.2, Ideogram/Recraft, or Midjourney/FLUX.2 max through `POST /api/image` (OpenRouter). The chat model does not invent photography.
 
 ## Pre-flight (no box, no ship)
 
 - [ ] Design read declared
-- [ ] Correct model for the surface
+- [ ] Correct image specialist for the surface (OpenRouter)
 - [ ] TasteSkill Section 9 scanned
 - [ ] No three-equal-card row
 - [ ] No mesh / AI-purple / Inter-by-default

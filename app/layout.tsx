@@ -24,7 +24,7 @@ const mono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Atelier — Hellenic Technologies design agents",
   description:
-    "Intake studio for the Hellenic design team. TasteSkill on every surface. Packets that launch Cursor on design-capable models.",
+    "Intake studio for the Hellenic design team. TasteSkill on every surface. Packets that tell Cursor which image specialist to call through OpenRouter.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

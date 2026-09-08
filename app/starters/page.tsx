@@ -10,8 +10,8 @@ export default function StartersPage() {
         Saved Cloud Agents for sites, banners, social, and edits.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
-        Paste a starter into a Cloud Agent on this repo and pick the model printed in the prompt. Designers
-        then only add the client URL, file, or brand kit. TasteSkill is in every starter.
+        Paste a starter into a Cloud Agent on this repo. The prompt names the image specialist to call
+        through OpenRouter. Designers then only add the client URL, file, or brand kit.
       </p>
 
       <div className="mt-10 space-y-6">

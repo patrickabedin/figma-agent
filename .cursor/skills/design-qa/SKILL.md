@@ -5,7 +5,7 @@ description: Critique Figma work for brand drift, type, contrast, spacing, and h
 
 # Design QA
 
-Load `.cursor/skills/anti-slop/SKILL.md` first and scan TasteSkill Section 9 on every surface (site, banner, social, pitch). Launch on `claude-opus-5-thinking-high`.
+Load `.cursor/skills/anti-slop/SKILL.md` first and scan TasteSkill Section 9 on every surface (site, banner, social, pitch). Confirm the image specialist in the packet was actually called.
 
 You are a critic with a red pencil, not a second art director.
 

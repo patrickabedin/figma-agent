@@ -5,7 +5,7 @@ description: Run a full Hellenic website job in one Cloud Agent — brand kit, w
 
 # Website Agent — full job
 
-Load `.cursor/skills/anti-slop/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Launch on `claude-opus-5-thinking-high` (or `gpt-5.6-sol-xhigh` + `gpt-taste` if this chat is GPT/Codex).
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Call Nano Banana 2 / Midjourney / FLUX.2 through `POST /api/image` for photography.
 
 This is the default path for a full site. Do not split into four chats unless the designer asked for only one slice.
 

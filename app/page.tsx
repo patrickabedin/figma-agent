@@ -7,12 +7,13 @@ export default function Home() {
       <section className="max-w-3xl">
         <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Any design job</p>
         <h1 className="serif mt-3 text-5xl leading-[1.05] tracking-tight sm:text-6xl">
-          Sites, banners, social — TasteSkill and a model that can draw.
+          Sites, banners, social — TasteSkill and the right image model.
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-ink-soft sm:text-lg">
           Paste the client URL or drop a style guide. Atelier extracts the brand, writes a design read, and
-          builds specialist packets that launch on Claude Opus thinking for hi-fi and banners, Sonnet thinking
-          for wires and mechanical edits. TasteSkill applies to every surface, not only websites.
+          names the image specialist Cursor should call through OpenRouter: Nano Banana 2 for light,
+          Ideogram/Recraft for type in the frame, Midjourney/FLUX.2 max for mood, GPT Image 2 for edits.
+          TasteSkill applies to every surface, not only websites.
         </p>
         <div className="mt-6 flex flex-wrap gap-3 text-sm">
           <StatusChip label="Hellenic Technologies Pro seat" />

@@ -1,48 +1,45 @@
 import Link from "next/link";
-import { MODEL_TABLE } from "@/lib/models";
+import { IMAGE_ROSTER } from "@/lib/models";
 import { ANTI_SLOP_BANS, TASTE_STACK } from "@/lib/taste";
 
 export default function TastePage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-copper">TasteSkill + models</p>
+      <p className="text-[11px] uppercase tracking-[0.22em] text-copper">TasteSkill + image specialists</p>
       <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
-        Anti-slop for every surface. Models that can actually draw.
+        Anti-slop for every surface. Image models that actually draw.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
-        Websites, banners, social, pitch, wireframes, and in-file edits all go through{" "}
-        <a className="text-ink underline decoration-line underline-offset-4" href="https://www.tasteskill.dev/">
-          TasteSkill
-        </a>{" "}
-        before they are allowed to look done. Cursor then launches the specialist on a design-capable model —
-        not a fast/small one.
+        The Cloud Agent does layout in Figma. Photography and type-in-image go to specialists. Cursor
+        calls them through OpenRouter via <code>POST /api/image</code> — one studio key, the right model
+        per job.
       </p>
 
       <section className="mt-12">
-        <h2 className="serif text-3xl">Which model to launch</h2>
+        <h2 className="serif text-3xl">Who Cursor should call</h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-soft">
-          Packets print the Cursor slug. When you spawn a design subagent, pass that slug. If the parent
-          chat is already GPT or Codex, stay on GPT-5.6 xhigh and load <code>gpt-taste</code>.
+          Packets print a primary + supporting plan. Midjourney, Ideogram, Firefly, and SD 3.5 are not
+          all on OpenRouter — those rows name the stand-in slug the API actually hits.
         </p>
-        <div className="mt-6 overflow-hidden rounded-2xl border border-line">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-paper-2 text-[11px] uppercase tracking-[0.16em] text-ink-soft">
-              <tr>
-                <th className="px-4 py-3 font-medium">Use</th>
-                <th className="px-4 py-3 font-medium">Model</th>
-                <th className="px-4 py-3 font-medium">Cursor slug</th>
-              </tr>
-            </thead>
-            <tbody>
-              {MODEL_TABLE.map((model) => (
-                <tr key={model.id} className="border-t border-line">
-                  <td className="px-4 py-3 text-ink-soft">{model.use}</td>
-                  <td className="px-4 py-3">{model.label}</td>
-                  <td className="px-4 py-3 font-mono text-[11px]">{model.slug}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="mt-6 grid gap-4">
+          {IMAGE_ROSTER.map((model) => (
+            <article key={model.id} className="hairline rounded-2xl bg-paper-2 p-5">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="serif text-2xl">
+                  <a href={model.href} className="hover:text-copper-deep">
+                    {model.label}
+                  </a>
+                </h3>
+                <p className="font-mono text-[11px] text-copper">{model.openrouter}</p>
+              </div>
+              <p className="mt-1 text-sm text-ink">{model.strength}</p>
+              <p className="mt-2 text-sm leading-6 text-ink-soft">{model.use}</p>
+              <p className="mt-2 text-sm leading-6 text-ink-soft">{model.never}</p>
+              {model.openrouterNote ? (
+                <p className="mt-2 text-xs leading-5 text-ink-soft">{model.openrouterNote}</p>
+              ) : null}
+            </article>
+          ))}
         </div>
       </section>
 

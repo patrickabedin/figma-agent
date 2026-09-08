@@ -1,6 +1,6 @@
 import { AGENTS, DELIVERABLE_LABELS, agentsForDeliverables } from "./agents";
 import { FIGMA_TEAM_NAME, FIGMA_TEAM_PLAN_KEY, OPERATING_KIT } from "./constants";
-import { modelForAgent, recommendModel } from "./models";
+import { formatImagePlan, recommendImagePlan } from "./models";
 import { BANNER_SIZES, DEFAULT_WEBSITE_PAGES, QUALITY_GATES, WEB_BREAKPOINTS } from "./presets";
 import { inferDesignRead, tasteLoadLines } from "./taste";
 import type { AgentPacket, BrandKit, BriefInput, StudioBrief } from "./types";
@@ -12,15 +12,16 @@ export function generateStudioBrief(input: BriefInput, brandKit: BrandKit): Stud
     .filter((agent): agent is (typeof AGENTS)[number] => !!agent)
     .map((agent) => buildPacket(agent.id, input, brandKit));
 
-  const lead = recommendModel(input.deliverables);
+  const imagePlan = recommendImagePlan(input);
   return {
     createdAt: new Date().toISOString(),
     input,
     brandKit,
     packets,
     designRead: inferDesignRead(input, brandKit),
-    recommendedModel: lead.slug,
-    recommendedModelLabel: lead.label,
+    recommendedModel: imagePlan.primary.specialistId,
+    recommendedModelLabel: imagePlan.primary.label,
+    imagePlan,
   };
 }
 
@@ -43,17 +44,14 @@ function finishPacket(
   brandKit: BrandKit,
 ): AgentPacket {
   const designRead = inferDesignRead(input, brandKit);
-  const model = modelForAgent(agentId);
+  const imagePlan = recommendImagePlan(input, agentId);
   const redesign =
     Boolean(input.existingFigmaUrl) || /redesign|refresh|existing/i.test(`${input.goals} ${input.websiteUrl}`);
   const taste = [
-    "TASTE + MODEL (sites, banners, social, wire, pitch, edits)",
+    "TASTE + IMAGE SPECIALISTS (sites, banners, social, wire, pitch, edits)",
     `- Design read: ${designRead}`,
-    `- Launch this specialist on ${model.label}`,
-    `- Cursor model slug: ${model.slug}`,
     `- Load skills: ${tasteLoadLines({ redesign }).join(" → ")}`,
-    "- If this parent chat is GPT or Codex: load gpt-taste and use gpt-5.6-sol-xhigh instead",
-    "- Do not run hi-fi, banners, or campaign on a fast/small model",
+    formatImagePlan(imagePlan),
     "- Client brand beats TasteSkill defaults (keep purple only if the brand is already purple)",
     "",
   ].join("\n");
@@ -62,9 +60,10 @@ function finishPacket(
     agentId,
     title,
     summary,
-    recommendedModel: model.slug,
-    recommendedModelLabel: model.label,
+    recommendedModel: imagePlan.primary.specialistId,
+    recommendedModelLabel: imagePlan.primary.label,
     designRead,
+    imagePlan,
     prompt: `${taste}${body}`,
   };
 }
@@ -79,7 +78,7 @@ function packetBody(
     case "website-job":
       return {
         title: "Website Agent — full job",
-        summary: "One Cloud Agent on Claude Opus thinking. Brand kit, wireframes, hi-fi desktop + mobile, then QA.",
+        summary: "One Cloud Agent. Brand kit, wireframes, hi-fi. Call Nano Banana 2 / Midjourney for imagery — not gray slots.",
         body: `${context}
 
 You are the Hellenic Technologies Website Agent. Run the full website job in this single conversation. Do not stop after the brand page.
@@ -130,7 +129,7 @@ Return the Figma file URL when done.`,
     case "intake":
       return {
         title: "1. Intake / Orchestrator",
-        summary: "Confirm the brief, pick the model, then run Brand Kit before any visual work.",
+        summary: "Confirm the brief, name the image specialists, then run Brand Kit before any visual work.",
         body: `${context}
 
 You are the Intake / Orchestrator for Hellenic Technologies design jobs.

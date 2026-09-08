@@ -72,6 +72,29 @@ export type AgentId =
   | "design-system"
   | "campaign";
 
+export type ImageSpecialistId =
+  | "midjourney"
+  | "gpt-image-2"
+  | "nano-banana-2"
+  | "flux-2"
+  | "ideogram"
+  | "stable-diffusion-3.5"
+  | "firefly-5";
+
+export type ImageJob = {
+  role: string;
+  specialistId: ImageSpecialistId;
+  label: string;
+  why: string;
+  call: string;
+};
+
+export type ImagePlan = {
+  primary: ImageJob;
+  supporting: ImageJob[];
+  notes: string[];
+};
+
 export type AgentPacket = {
   agentId: AgentId;
   title: string;
@@ -80,6 +103,7 @@ export type AgentPacket = {
   recommendedModel: string;
   recommendedModelLabel: string;
   designRead: string;
+  imagePlan: ImagePlan;
 };
 
 export type StudioBrief = {
@@ -90,4 +114,5 @@ export type StudioBrief = {
   designRead: string;
   recommendedModel: string;
   recommendedModelLabel: string;
+  imagePlan: ImagePlan;
 };

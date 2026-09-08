@@ -5,7 +5,7 @@ description: Extract and publish a client brand kit in Figma from a live website
 
 # Brand Kit
 
-Load `.cursor/skills/anti-slop/SKILL.md` first. Launch on `claude-opus-5-thinking-high`. Tokens here feed websites, banners, and social — do not encode Inter or a purple SaaS default.
+Load `.cursor/skills/anti-slop/SKILL.md` first. Tokens here feed websites, banners, and social — do not encode Inter or a purple SaaS default. Do not invent photography in the brand file.
 
 Source of truth, in order: uploaded style guide → existing brand Figma → live website → designer notes.
 

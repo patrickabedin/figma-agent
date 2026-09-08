@@ -5,7 +5,7 @@ description: Extend a brand kit into social, launch, and pitch surfaces. Use for
 
 # Campaign / Social
 
-Load `.cursor/skills/anti-slop/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Launch on `claude-opus-5-thinking-high`. Same bans as websites and banners.
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Same bans as websites and banners. Call Ideogram/Recraft + Nano Banana 2 through OpenRouter.
 
 ## Build
 

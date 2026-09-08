@@ -5,7 +5,7 @@ description: Edit an existing Figma file in place while preserving its design sy
 
 # Figma Editor
 
-Load `.cursor/skills/anti-slop/SKILL.md` first. Launch on `claude-sonnet-5-thinking-high` for copy/component swaps; escalate to `claude-opus-5-thinking-high` if the edit is visual art-direction. Do not “modernize” with mesh blobs or Inter the file did not already have.
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first. Call GPT Image 2 (or Firefly in Creative Cloud) for “keep this, change that” on existing plates. Do not “modernize” with mesh blobs or Inter the file did not already have.
 
 Inspect, then change only what was asked.
 

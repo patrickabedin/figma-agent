@@ -84,7 +84,7 @@ export function BriefForm() {
             <h2 className="serif mt-2 text-3xl sm:text-4xl">URL or style guide in. Taste-checked packets out.</h2>
             <p className="mt-2 max-w-xl text-sm text-ink-soft">
               Default is a full website. Switch the job to banners, social, wires, or an existing Figma file.
-              Every packet names the model Cursor should launch.
+              Every packet names the image specialist Cursor should call through OpenRouter.
             </p>
           </div>
           <button

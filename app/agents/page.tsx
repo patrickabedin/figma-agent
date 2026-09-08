@@ -11,7 +11,8 @@ export default function AgentsPage() {
       </h1>
       <p className="mt-4 max-w-2xl text-base text-ink-soft">
         The Website Agent is the default for a new site. Use Banner, Campaign, Wireframe, or Figma Editor
-        when that is the job. Every specialist loads TasteSkill and prints the Cursor slug to launch on.
+        when that is the job. Every specialist loads TasteSkill and names the image model Cursor should
+        call through OpenRouter.
       </p>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">
@@ -29,10 +30,10 @@ export default function AgentsPage() {
               <List title="Leaves behind" items={agent.outputs} />
             </div>
             <p className="mt-4 text-sm">
-              <span className="font-medium">Launch on. </span>
+              <span className="font-medium">Call for pixels. </span>
               {modelForAgent(agent.id).label}
               <span className="mt-1 block font-mono text-[11px] text-ink-soft">
-                {modelForAgent(agent.id).slug}
+                {modelForAgent(agent.id).openrouter}
               </span>
             </p>
             <p className="mt-3 font-mono text-[11px] text-ink-soft">{agent.skillPath}</p>

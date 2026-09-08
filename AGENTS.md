@@ -31,20 +31,23 @@ This repository is the operating system for the design team.
 
 Any design surface. Saved starters live in `starters/`. Default sequence for a new site is the Website Agent. Banners, social, and edits are first-class jobs with the same TasteSkill stack.
 
-## Taste + models
+## Taste + image specialists
 
-Load `.cursor/skills/anti-slop/SKILL.md` before drawing. TasteSkill applies to websites, banners, social, pitch, wireframes, and in-file edits.
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` before drawing. TasteSkill applies to websites, banners, social, pitch, wireframes, and in-file edits.
 
-When spawning a design subagent, or telling a designer which Cloud Agent model to pick:
+The chat model does layout. Pixels go through OpenRouter (`POST /api/image`):
 
-| Surface | Cursor slug |
-| --- | --- |
-| Hi-fi, banners, campaign, brand, QA | `claude-opus-5-thinking-high` |
-| Escalate if the first pass looks templated | `claude-opus-5-thinking-xhigh` |
-| Wireframes, intake, mechanical Figma edits | `claude-sonnet-5-thinking-high` |
-| Parent chat is GPT / Codex | `gpt-5.6-sol-xhigh` + load `gpt-taste` |
+| Need | Specialist | OpenRouter slug |
+| --- | --- | --- |
+| Photoreal / lighting | Nano Banana 2 | `google/gemini-3.1-flash-image` |
+| Precise edits | GPT Image 2 | `openai/gpt-image-2` |
+| Controlled realism | FLUX.2 | `black-forest-labs/flux.2-pro` |
+| Type in the image | Ideogram (stand-in Recraft) | `recraft/recraft-v4.1-pro` |
+| Mood / aesthetics | Midjourney (stand-in FLUX.2 max) | `black-forest-labs/flux.2-max` |
+| Local / LoRA | SD 3.5 (stand-in FLUX.2 flex) | `black-forest-labs/flux.2-flex` |
+| Composite in CC | Firefly 5 (API stand-in GPT Image 2) | `openai/gpt-image-2` |
 
-Do not draw hi-fi or banners on a small/fast model. Studio packets print the slug.
+Studio packets print the plan. Requires `OPENROUTER_API_KEY` in Vercel / `.env.local`.
 
 ## Hard rules
 

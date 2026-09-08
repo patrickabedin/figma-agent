@@ -11,7 +11,7 @@ export const STARTERS: Starter[] = [
     id: "website",
     title: "Website Agent",
     status: "live",
-    blurb: "Default site job on Claude Opus thinking. Brand kit, wires, hi-fi, QA — one Cloud Agent.",
+    blurb: "Default site job. Brand kit, wires, hi-fi, QA. Nano Banana 2 for photography via OpenRouter.",
     href: "/starters#website",
   },
   {
@@ -25,7 +25,7 @@ export const STARTERS: Starter[] = [
     id: "banners",
     title: "Banners / Campaign",
     status: "live",
-    blurb: "Ads-only or after the site. One idea, many sizes. Same TasteSkill bans. Opus thinking.",
+    blurb: "Ads-only or after the site. One idea, many sizes. Ideogram/Recraft for type, Nano Banana for plates.",
     href: "/starters#banners",
   },
   {
@@ -39,7 +39,7 @@ export const STARTERS: Starter[] = [
     id: "campaign",
     title: "Social / launch",
     status: "live",
-    blurb: "Extend the site into 1:1, 4:5, 9:16, LinkedIn. Opus thinking. No new brand per ratio.",
+    blurb: "Extend the site into 1:1, 4:5, 9:16, LinkedIn. Same image specialists. No new brand per ratio.",
     href: "/starters#campaign",
   },
   {

@@ -7,7 +7,7 @@ You are working in the Hellenic Technologies design-agent repository.
 
 For any design work (Figma, websites, banners, social, pitch, wireframes, brand kits, edits):
 
-1. Load `.cursor/skills/anti-slop/SKILL.md` and TasteSkill before drawing. Launch on the model in `.cursor/rules/design-models.mdc`.
+1. Load `.cursor/skills/anti-slop/SKILL.md`, `.cursor/skills/image-models/SKILL.md`, and TasteSkill before drawing. Call image specialists through OpenRouter (`POST /api/image`).
 2. If the job is a new website or landing, follow `.cursor/skills/website-job/SKILL.md` and run the full job in one conversation.
 3. Identify any other specialist in `.cursor/skills/` only when the designer asked for a slice (banners, social, edit, wireframes only).
 4. Extract or reuse a brand kit before drawing hi-fi screens or ads.
@@ -15,4 +15,4 @@ For any design work (Figma, websites, banners, social, pitch, wireframes, brand 
 6. Confirm Figma access with `whoami` if write calls fail.
 7. QA before claiming the job is done. TasteSkill Section 9 applies to banners and social, not only websites.
 
-If the designer pastes a Studio packet, treat the JSON brand kit as source of truth unless attached files contradict it. Honor the packet’s recommended model slug when spawning a subagent.
+If the designer pastes a Studio packet, treat the JSON brand kit as source of truth unless attached files contradict it. Honor the packet’s image plan when generating pixels.

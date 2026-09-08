@@ -5,7 +5,7 @@ description: Design campaign and display banner systems in Figma from a brand ki
 
 # Banner / Campaign
 
-Load `.cursor/skills/anti-slop/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Launch on `claude-opus-5-thinking-high` — banners are visual work, not a fast-model job.
+Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` first, then TasteSkill (`design-taste-frontend`) and `ui-craft`. Call Ideogram/Recraft for type in the frame, Nano Banana 2 for the photo plate.
 
 One idea, many sizes. Sizes live in `lib/presets.ts`. TasteSkill bans apply here the same as websites: no mesh blobs, no three identical tiles, no Elevate/Unleash, no Inter-by-default.
 

@@ -5,7 +5,7 @@ description: Promote approved screens into a Figma variable and component librar
 
 # Design System
 
-Load `.cursor/skills/anti-slop/SKILL.md` first. Launch on `claude-opus-5-thinking-high`. Do not encode a three-equal-card template or Inter fallback into the library.
+Load `.cursor/skills/anti-slop/SKILL.md` first. Do not encode a three-equal-card template or Inter fallback into the library.
 
 Load `figma-use` and `figma-generate-library`.
 

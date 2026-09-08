@@ -88,7 +88,11 @@ export const ANTI_SLOP_BANS = [
 ] as const;
 
 export function tasteLoadLines(opts?: { gpt?: boolean; redesign?: boolean }): string[] {
-  const lines = [".cursor/skills/anti-slop/SKILL.md", ".cursor/skills/design-taste-frontend/SKILL.md"];
+  const lines = [
+    ".cursor/skills/anti-slop/SKILL.md",
+    ".cursor/skills/image-models/SKILL.md",
+    ".cursor/skills/design-taste-frontend/SKILL.md",
+  ];
   if (opts?.gpt) lines.push(".cursor/skills/gpt-taste/SKILL.md");
   if (opts?.redesign) lines.push(".cursor/skills/redesign-existing-projects/SKILL.md");
   lines.push(".cursor/skills/ui-craft/SKILL.md", ".cursor/skills/full-output-enforcement/SKILL.md");
