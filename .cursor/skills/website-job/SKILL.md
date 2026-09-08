@@ -12,7 +12,7 @@ Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.
 ## House stack (do not substitute)
 
 - Next.js App Router + Tailwind v4
-- `next/font` with the **client** typeface (Source Sans 3 when that is the kit). Never Inter-by-default
+- `next/font` with the **client** typeface from the brand kit. Never Inter-by-default unless Inter is that face.
 - shadcn/ui **primitives only** (button, input, dialog, nav) — restyle to client tokens. Never ship default shadcn chrome
 - Icons: Phosphor / HugeIcons / Radix / Tabler
 - Motion (`motion/react`) only if the motion dial needs it. No Aceternity / Magic UI as the look
@@ -43,7 +43,7 @@ Language of the source site stays the language of the page.
 
 ## Taste
 
-Look like this client. A Greek industrial or services brand is not a San Francisco SaaS template. If the live site is type-driven, keep it type-driven. If the kit is gold / cyan / Source Sans 3, do not invent school-bus yellow.
+Look like this client. A Greek industrial or services brand is not a San Francisco SaaS template. If the live site is type-driven, keep it type-driven. Prefer colors sourced as `wp theme` or `logo fill`. Discard Gutenberg / Tailwind scale leftovers. Hellenic gold / cyan / Source Sans 3 only when the client is Hellenic Technologies.
 
 ## Stop conditions
 

@@ -1,46 +1,28 @@
 import * as cheerio from "cheerio";
 import {
+  extractSvgFills,
+  firstFontFromStack,
+  isLegalNavLabel,
+  isNoiseHex,
+  isPartnerLogo,
+  isPhoneLabel,
+  isUsableFontName,
+  SYSTEM_FONT_NAMES,
+} from "./brand-noise";
+import {
   clusterHexColors,
   hexToRgb,
   isNearNeutral,
   luminance,
   parseCssColor,
 } from "./colors";
+import { assignThemeColorRoles, collectThemeColorTokens, collectThemeFonts } from "./css-tokens";
 import type { BrandColor, BrandFont, BrandKit } from "./types";
 import { normalizeHttpUrl } from "./url-guard";
 
 const FETCH_TIMEOUT_MS = 12000;
 const MAX_STYLESHEETS = 5;
 const MAX_BODY_CHARS = 400_000;
-
-const SYSTEM_FONTS = new Set(
-  [
-    "arial",
-    "helvetica",
-    "times",
-    "times new roman",
-    "georgia",
-    "verdana",
-    "tahoma",
-    "trebuchet ms",
-    "courier",
-    "courier new",
-    "system-ui",
-    "sans-serif",
-    "serif",
-    "monospace",
-    "cursive",
-    "fantasy",
-    "ui-sans-serif",
-    "ui-serif",
-    "ui-monospace",
-    "apple color emoji",
-    "segoe ui",
-    "roboto",
-    "-apple-system",
-    "blinkmacsystemfont",
-  ].map((name) => name.toLowerCase()),
-);
 
 export async function extractBrandFromUrl(rawUrl: string): Promise<BrandKit> {
   const url = normalizeHttpUrl(rawUrl);
@@ -77,23 +59,29 @@ export async function extractBrandFromUrl(rawUrl: string): Promise<BrandKit> {
     }),
   );
 
-  const css = `${$("style").text()}\n${cssChunks.join("\n")}`;
-  const hexes = collectCssColors(html, css);
-  if (themeColor) hexes.unshift(themeColor);
-
-  const colors = assignColorRoles(clusterHexColors(hexes, 10), themeColor);
-  const fonts = collectFonts($, css, html);
+  const css = `${$("style").text()}\n${cssChunks.join("\n")}\n${html}`;
   const logos = collectLogos($, url);
+  const logoHexes = await collectLogoHexes(logos);
+  const { colors, droppedDefaults } = selectBrandColors(css, themeColor, logoHexes);
+  const fonts = selectBrandFonts($, css, html);
   const sitemapHints = collectNav($);
   const voice = collectVoice($, description);
   const imageryNotes = collectImagery($);
 
   const warnings: string[] = [];
+  if (droppedDefaults > 0) {
+    warnings.push(
+      `Dropped ${droppedDefaults} WordPress editor / Tailwind scale colors. Using theme tokens and logo fills.`,
+    );
+  }
   if (colors.length < 3) {
     warnings.push("Few brand colors were detected. Confirm the palette from the style guide or screenshots.");
   }
   if (fonts.length === 0) {
     warnings.push("No custom fonts were detected. Check Google Fonts, Adobe Fonts, or the uploaded guide.");
+  }
+  if (fonts.some((font) => font.family.toLowerCase() === "inter")) {
+    warnings.push("Inter is the source face on this site — keep it. The Inter ban is only when Inter is a fallback.");
   }
   if (logos.length === 0) {
     warnings.push("No obvious logo asset was found. Upload the official logo files.");
@@ -127,6 +115,76 @@ export function emptyBrandKit(name: string, warnings: string[] = []): BrandKit {
   };
 }
 
+export function selectBrandColors(
+  css: string,
+  themeColor: string | null,
+  logoHexes: string[],
+): { colors: BrandColor[]; droppedDefaults: number } {
+  const { theme, droppedDefaults } = collectThemeColorTokens(css);
+  let colors = assignThemeColorRoles(theme);
+
+  if (logoHexes.length && !colors.some((item) => item.role === "primary")) {
+    const logoPrimary = logoHexes.find((hex) => {
+      const rgb = hexToRgb(hex);
+      return rgb && !isNearNeutral(rgb);
+    });
+    if (logoPrimary) {
+      colors = [{ hex: logoPrimary, role: "primary", source: "logo fill" }, ...colors];
+    }
+  }
+
+  if (colors.length >= 3) {
+    return { colors: colors.slice(0, 8), droppedDefaults };
+  }
+
+  const hexes = collectCssColors(css).filter((hex) => !isNoiseHex(hex));
+  for (const hex of logoHexes) hexes.unshift(hex);
+  if (themeColor && !isNoiseHex(themeColor)) hexes.unshift(themeColor);
+
+  const fallback = assignColorRoles(clusterHexColors(hexes, 10), themeColor && !isNoiseHex(themeColor) ? themeColor : null);
+  return { colors: fallback.slice(0, 8), droppedDefaults };
+}
+
+export function selectBrandFonts($: CheerioRoot, css: string, html: string): BrandFont[] {
+  const fromTheme = collectThemeFonts(css);
+  if (fromTheme.length) return fromTheme.slice(0, 4);
+
+  const families = new Set<string>();
+
+  $("link[href*='fonts.googleapis.com'], link[href*='use.typekit.net'], link[href*='fonts.adobe.com']").each(
+    (_, el) => {
+      const href = $(el).attr("href") || "";
+      const familyParams = href.match(/family=([^&]+)/g) || [];
+      for (const param of familyParams) {
+        decodeURIComponent(param.replace("family=", ""))
+          .split("|")
+          .forEach((part) => {
+            const name = part.split(":")[0]?.replace(/\+/g, " ").trim();
+            if (name && isUsableFontName(name) && !SYSTEM_FONT_NAMES.has(name.toLowerCase())) {
+              families.add(name);
+            }
+          });
+      }
+    },
+  );
+
+  for (const match of css.match(/@font-face\s*\{[^}]*font-family\s*:\s*([^;}{]+)/gi) ?? []) {
+    const family = firstFontFromStack(match.replace(/@font-face[\s\S]*font-family\s*:\s*/i, ""));
+    if (family) families.add(family);
+  }
+
+  for (const match of `${css}\n${html}`.match(/font-family\s*:\s*([^;}{]+)/gi) ?? []) {
+    const family = firstFontFromStack(match.replace(/font-family\s*:\s*/i, ""));
+    if (family) families.add(family);
+  }
+
+  return [...families].slice(0, 4).map((family, index) => ({
+    family,
+    role: index === 0 ? "display" : index === 1 ? "body" : "unknown",
+    source: "site css / webfonts",
+  }));
+}
+
 async function fetchText(url: URL): Promise<string> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
@@ -149,6 +207,22 @@ async function fetchText(url: URL): Promise<string> {
     clearTimeout(timer);
   }
 }
+
+async function collectLogoHexes(logos: string[]): Promise<string[]> {
+  const svgs = logos.filter((src) => /\.svg(\?|$)/i.test(src)).slice(0, 2);
+  const hexes: string[] = [];
+  for (const src of svgs) {
+    try {
+      const text = await fetchText(new URL(src));
+      hexes.push(...extractSvgFills(text));
+    } catch {
+      // Logo fetch is optional confirmation.
+    }
+  }
+  return [...new Set(hexes)];
+}
+
+export { extractSvgFills };
 
 function collectCssColors(...chunks: string[]): string[] {
   const found: string[] = [];
@@ -218,7 +292,7 @@ function assignColorRoles(hexes: string[], themeColor: string | null): BrandColo
     if (used.has(hex)) continue;
     colors.push({ hex, role: "palette", source: "css" });
     used.add(hex);
-    if (colors.length >= 10) break;
+    if (colors.length >= 8) break;
   }
 
   return colors;
@@ -226,57 +300,15 @@ function assignColorRoles(hexes: string[], themeColor: string | null): BrandColo
 
 type CheerioRoot = ReturnType<typeof cheerio.load>;
 
-function collectFonts(
-  $: CheerioRoot,
-  css: string,
-  html: string,
-): BrandFont[] {
-  const families = new Set<string>();
-
-  $("link[href*='fonts.googleapis.com'], link[href*='use.typekit.net'], link[href*='fonts.adobe.com']").each(
-    (_, el) => {
-      const href = $(el).attr("href") || "";
-      const familyParams = href.match(/family=([^&]+)/g) || [];
-      for (const param of familyParams) {
-        decodeURIComponent(param.replace("family=", ""))
-          .split("|")
-          .forEach((part) => {
-            const name = part.split(":")[0]?.replace(/\+/g, " ").trim();
-            if (name) families.add(name);
-          });
-      }
-    },
-  );
-
-  for (const match of css.match(/font-family\s*:\s*([^;}{]+)/gi) ?? []) {
-    const stack = match.replace(/font-family\s*:\s*/i, "");
-    stack.split(",").forEach((part) => {
-      const name = part.replace(/["']/g, "").trim();
-      if (name && !SYSTEM_FONTS.has(name.toLowerCase())) families.add(name);
-    });
-  }
-
-  for (const match of html.match(/--[\w-]*(font|type)[\w-]*\s*:\s*["']?([^;"']+)/gi) ?? []) {
-    const name = match.split(":").slice(1).join(":").replace(/["']/g, "").split(",")[0]?.trim();
-    if (name && !SYSTEM_FONTS.has(name.toLowerCase())) families.add(name);
-  }
-
-  return [...families].slice(0, 6).map((family, index) => ({
-    family,
-    role: index === 0 ? "display" : index === 1 ? "body" : "unknown",
-    source: "site css / webfonts",
-  }));
-}
-
 function collectLogos($: CheerioRoot, base: URL): string[] {
   const candidates = [
+    ...$('img[src*="logo" i], img[alt*="logo" i], header img, .logo img')
+      .map((_, el) => $(el).attr("src"))
+      .get(),
+    $('link[rel="icon"][type="image/svg+xml"]').attr("href"),
     $('meta[property="og:logo"]').attr("content"),
     $('meta[property="og:image"]').attr("content"),
     $('link[rel="apple-touch-icon"]').attr("href"),
-    $('link[rel="icon"][type="image/svg+xml"]').attr("href"),
-    $('img[alt*="logo" i]').attr("src"),
-    $('img[src*="logo" i]').attr("src"),
-    $("header img").first().attr("src"),
   ]
     .filter((value): value is string => !!value)
     .map((value) => {
@@ -286,21 +318,33 @@ function collectLogos($: CheerioRoot, base: URL): string[] {
         return null;
       }
     })
-    .filter((value): value is string => !!value);
+    .filter((value): value is string => !!value && !isPartnerLogo(value) && /logo/i.test(value));
 
-  return [...new Set(candidates)].slice(0, 6);
+  const unique = [...new Set(candidates)];
+  unique.sort((a, b) => logoScore(b) - logoScore(a));
+  return unique.slice(0, 6);
+}
+
+function logoScore(src: string): number {
+  let score = 0;
+  if (/\.svg(\?|$)/i.test(src)) score += 40;
+  if (/logo/i.test(src)) score += 30;
+  if (/logo-white/i.test(src)) score -= 8;
+  if (/favicon|apple-touch/i.test(src)) score -= 20;
+  if (/wp-content\/uploads/i.test(src) && /logo/i.test(src)) score += 5;
+  return score;
 }
 
 function collectNav($: CheerioRoot): string[] {
   const labels = $("nav a, header a")
     .map((_, el) => clean($(el).text()))
     .get()
-    .filter((label) => label.length > 1 && label.length < 32);
+    .filter((label) => label.length > 1 && label.length < 40 && !isPhoneLabel(label) && !isLegalNavLabel(label));
 
   const headings = $("h2")
     .map((_, el) => clean($(el).text()))
     .get()
-    .filter((label) => label.length > 2 && label.length < 48);
+    .filter((label) => label.length > 2 && label.length < 48 && !isPhoneLabel(label));
 
   return [...new Set([...labels, ...headings])].slice(0, 16);
 }
@@ -324,7 +368,7 @@ function collectImagery($: CheerioRoot): string[] {
   if (imgCount > 0) notes.push(`Page contains ${imgCount} images — inspect photography style before inventing new shots.`);
 
   if ($("video, iframe").length) {
-    notes.push("The source site uses motion or embedded video. Consider a still + play-state in Figma.");
+    notes.push("The source site uses motion or embedded video. Capture a still + play state; do not invent a product UI.");
   }
 
   return notes;
