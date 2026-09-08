@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f3ecdf;
+  --paper-2: #faf6ee;
+  --ink: #161410;
+  --ink-soft: #3c3832;
+  --line: #d8cfc0;
+  --copper: #b4532a;
+  --copper-deep: #8a3b1c;
+  --sea: #1c4452;
+  --sage: #3f5c4e;
+  --ok: #2f6b4f;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-copper: var(--copper);
+  --color-copper-deep: var(--copper-deep);
+  --color-sea: var(--sea);
+  --color-sage: var(--sage);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(180, 83, 42, 0.08), transparent 50%),
+    radial-gradient(900px 400px at 110% 0%, rgba(28, 68, 82, 0.08), transparent 45%),
+    var(--paper);
+  color: var(--ink);
+}
+
+::selection {
+  background: #e8c4b0;
+  color: var(--ink);
+}
+
+.serif {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.038em;
+  line-height: 1.1;
+}
+
+.hairline {
+  box-shadow: inset 0 0 0 1px var(--line);
+}

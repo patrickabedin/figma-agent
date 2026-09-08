@@ -1,0 +1,18 @@
+---
+description: Route design imagery to Midjourney, GPT Image 2, Nano Banana 2, FLUX.2, Ideogram, SD 3.5, Firefly 5
+alwaysApply: true
+---
+
+Any design work in this repo (websites, banners, social, wireframes, brand kits, Figma edits, pitch) is TasteSkill work. Load `.cursor/skills/anti-slop/SKILL.md` and `.cursor/skills/image-models/SKILL.md` before generating pixels.
+
+The Cloud Agent chat model is not the art engine. When you need imagery, call a specialist:
+
+- Mood / style consistency → Midjourney
+- Precise edits, “keep this change that” → GPT Image 2 (`gpt-image-2`)
+- Photorealism and natural lighting → Nano Banana 2 (`gemini-3.1-flash-image`)
+- Controlled realism, open weights → FLUX.2 (`flux-2-pro`)
+- Crisp type inside the image → Ideogram 4.0 / 3.0
+- Fine-tune / local / LoRA → Stable Diffusion 3.5
+- Blend into an existing photo, Creative Cloud → Adobe Firefly 5
+
+Honor the image plan on an Atelier packet. POST `/api/image` — one OpenRouter key calls the specialist (or its documented stand-in). Set UI type in Figma unless the job is type-in-image. Empty gray photo slots are a defect.
