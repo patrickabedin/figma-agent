@@ -1,30 +1,21 @@
-"use client";
-
-import * as Accordion from "@radix-ui/react-accordion";
-import { CaretDown } from "@phosphor-icons/react";
 import { faqs, liveSite } from "@/lib/data";
 
 export function FaqList() {
   return (
     <div>
-      <Accordion.Root type="single" collapsible className="divide-y divide-ice">
+      <div className="divide-y divide-ice">
         {faqs.map((item) => (
-          <Accordion.Item key={item.q} value={item.q} className="py-6">
-            <Accordion.Header>
-              <Accordion.Trigger className="flex w-full items-start justify-between gap-6 text-left text-lg font-semibold text-navy [&[data-state=open]>svg]:rotate-180">
-                {item.q}
-                <CaretDown
-                  size={20}
-                  className="mt-1 shrink-0 transition-transform"
-                />
-              </Accordion.Trigger>
-            </Accordion.Header>
-            <Accordion.Content className="pt-3 text-base leading-7 text-muted-foreground">
+          <details key={item.q} className="group py-6">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-left text-lg font-semibold text-navy [&::-webkit-details-marker]:hidden">
+              {item.q}
+              <span className="mt-1 shrink-0 text-sky group-open:rotate-180">⌄</span>
+            </summary>
+            <p className="pt-3 text-base leading-7 text-muted-foreground">
               {item.a}
-            </Accordion.Content>
-          </Accordion.Item>
+            </p>
+          </details>
         ))}
-      </Accordion.Root>
+      </div>
       <p className="mt-8 text-base">
         More questions?{" "}
         <a href={`${liveSite}/faqs`} className="font-semibold text-sky">
