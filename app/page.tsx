@@ -6,7 +6,7 @@ export default function Home() {
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <section className="max-w-3xl">
         <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Any design job</p>
-        <h1 className="serif mt-3 text-5xl leading-[1.05] tracking-tight sm:text-6xl">
+        <h1 className="serif mt-3 text-5xl sm:text-6xl">
           Sites, banners, social — TasteSkill and the right image model.
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-ink-soft sm:text-lg">

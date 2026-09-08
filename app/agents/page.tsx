@@ -6,7 +6,7 @@ export default function AgentsPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">Specialists</p>
-      <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
+      <h1 className="serif mt-3 max-w-3xl text-5xl">
         One specialist per surface. Each one names its model.
       </h1>
       <p className="mt-4 max-w-2xl text-base text-ink-soft">

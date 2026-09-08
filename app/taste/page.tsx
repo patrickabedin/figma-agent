@@ -6,7 +6,7 @@ export default function TastePage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">TasteSkill + image specialists</p>
-      <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
+      <h1 className="serif mt-3 max-w-3xl text-5xl">
         Anti-slop for every surface. Image models that actually draw.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">

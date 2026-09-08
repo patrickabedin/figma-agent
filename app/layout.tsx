@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Geist_Mono, IBM_Plex_Sans, Instrument_Serif } from "next/font/google";
+import { Bricolage_Grotesque, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import "./globals.css";
 
-const sans = IBM_Plex_Sans({
+// TasteSkill: no Instrument Serif / Inter / IBM Plex default. Studio = one sans display family.
+const sans = Bricolage_Grotesque({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const serif = Instrument_Serif({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  weight: "400",
 });
 
 const mono = Geist_Mono({
@@ -31,7 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${serif.variable} ${mono.variable} h-full antialiased`}
+      className={`${sans.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans text-ink">
         <Header />

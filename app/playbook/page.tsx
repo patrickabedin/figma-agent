@@ -26,7 +26,7 @@ export default function PlaybookPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <p className="text-[11px] uppercase tracking-[0.22em] text-copper">How the desk works</p>
-      <h1 className="serif mt-3 max-w-3xl text-5xl leading-[1.05]">
+      <h1 className="serif mt-3 max-w-3xl text-5xl">
         Any design job. TasteSkill on every surface. The right model for the pixels.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-ink-soft">
